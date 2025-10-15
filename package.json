@@ -1,0 +1,34 @@
+{
+  "name": "qr-menu-system-v5",
+  "version": "1.0.0",
+  "description": "Complete QR Menu management system for restaurants with Node.js backend",
+  "main": "backend/src/app.ts",
+  "scripts": {
+    "install-backend": "cd backend && npm install",
+    "build-backend": "cd backend && npm run build",
+    "dev-backend": "cd backend && npm run dev",
+    "start-backend": "cd backend && npm start",
+    "db-push": "cd backend && npx prisma db push",
+    "db-generate": "cd backend && npx prisma generate",
+    "db-studio": "cd backend && npx prisma studio"
+  },
+  "keywords": [
+    "qr-menu",
+    "restaurant",
+    "menu-management",
+    "nodejs",
+    "typescript",
+    "prisma",
+    "postgresql"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/qr-menu-system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/qr-menu-system/issues"
+  },
+  "homepage": "https://github.com/yourusername/qr-menu-system#readme"
+}
