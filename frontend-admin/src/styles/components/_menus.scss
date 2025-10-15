@@ -1,0 +1,189 @@
+// Menu-specific styles
+// ============================================
+
+.client-info {
+  padding: 1rem;
+  background-color: var(--gray-50);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+}
+
+.client-info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .label {
+    font-weight: 500;
+    color: var(--text-muted);
+    min-width: 80px;
+  }
+
+  .value {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+}
+
+// Table styles for menus
+.table-client {
+  .client-name {
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  .client-slug {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-family: monospace;
+  }
+}
+
+// Status and toggle styles
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--border-radius);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  &.status--success {
+    background-color: var(--success-bg, #dcfce7);
+    color: var(--success-color, #166534);
+  }
+
+  &.status--danger {
+    background-color: var(--danger-bg, #fee2e2);
+    color: var(--danger-color, #dc2626);
+  }
+
+  &.status--warning {
+    background-color: var(--warning-bg, #fef3c7);
+    color: var(--warning-color, #d97706);
+  }
+}
+
+.toggle-btn {
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &.toggle--on {
+    background-color: var(--success-bg, #dcfce7);
+    color: var(--success-color, #166534);
+    border-color: var(--success-color, #166534);
+  }
+
+  &.toggle--off {
+    background-color: var(--gray-100);
+    color: var(--text-muted);
+    border-color: var(--border-color);
+  }
+
+  &:hover:not(:disabled) {
+    opacity: 0.8;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  padding: 0.25rem 0.5rem;
+  background-color: var(--primary-light, #dbeafe);
+  color: var(--primary-color);
+  border-radius: var(--border-radius);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+// QR Code display
+.qr-display {
+  text-align: center;
+
+  .qr-image {
+    margin-bottom: 1.5rem;
+    
+    img {
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+    }
+  }
+
+  .qr-info {
+    text-align: left;
+    margin-bottom: 1.5rem;
+
+    p {
+      margin-bottom: 0.5rem;
+    }
+
+    a {
+      color: var(--primary-color);
+      text-decoration: none;
+      word-break: break-all;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+// Warning text
+.warning-text {
+  color: var(--warning-color, #d97706);
+  font-weight: 500;
+}
+
+// Page filters
+.page-filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.filter-input,
+.filter-select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 0.875rem;
+  min-width: 200px;
+
+  &:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+}
+
+.filter-select {
+  cursor: pointer;
+  background-color: var(--white);
+}

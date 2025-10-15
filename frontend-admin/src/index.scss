@@ -1,0 +1,5 @@
+// Import SCSS files using the new @use syntax
+@use './styles/variables';
+@use './styles/base';
+@use './styles/components';
+@use './styles/layout';
