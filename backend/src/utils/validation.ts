@@ -118,12 +118,12 @@ export const createMenuSchema = Joi.object({
       'any.required': 'Името на менюто е задължително'
     }),
   clientId: idSchema,
-  templateId: idSchema
+  templateId: Joi.number().integer().positive().optional()
 });
 
 export const updateMenuSchema = Joi.object({
   name: Joi.string().min(2).max(100),
-  templateId: idSchema,
+  templateId: Joi.number().integer().positive().optional(),
   active: Joi.boolean(),
   published: Joi.boolean()
 });
@@ -197,7 +197,8 @@ export const createMenuItemSchema = Joi.object({
       price: Joi.number().positive().precision(2).required()
     })
   ).default([]),
-  order: Joi.number().integer().min(0).default(0)
+  order: Joi.number().integer().min(0).default(0),
+  available: Joi.boolean().default(true)
 });
 
 export const updateMenuItemSchema = createMenuItemSchema.fork(

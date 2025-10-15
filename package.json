@@ -30,5 +30,12 @@
   "bugs": {
     "url": "https://github.com/yourusername/qr-menu-system/issues"
   },
-  "homepage": "https://github.com/yourusername/qr-menu-system#readme"
+  "homepage": "https://github.com/yourusername/qr-menu-system#readme",
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/supertest": "^6.0.3",
+    "jest": "^29.7.0",
+    "supertest": "^7.1.4",
+    "ts-jest": "^29.4.5"
+  }
 }

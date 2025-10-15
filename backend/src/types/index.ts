@@ -10,7 +10,7 @@ export enum Role {
 
 // Интерфейси за базата данни (базирани на Prisma модели)
 export interface User {
-  id: string;
+  id: number;
   email: string;
   password: string;
   name: string;
@@ -20,7 +20,7 @@ export interface User {
 }
 
 export interface Client {
-  id: string;
+  id: number;
   name: string;           // Име на ресторанта
   slug: string;           // URL slug - пример: burger-king
   description?: string;   // Описание на ресторанта
@@ -40,7 +40,7 @@ export interface Client {
 }
 
 export interface Template {
-  id: string;
+  id: number;
   name: string;          // Име на темата
   description?: string;
   config: {              // Конфигурация на темата
@@ -63,11 +63,11 @@ export interface Template {
 }
 
 export interface Menu {
-  id: string;
+  id: number;
   name: string;          // Име на менюто
-  clientId: string;
+  clientId: number;
   client?: Client;
-  templateId: string;
+  templateId?: number;
   template?: Template;
   categories?: Category[];
   items?: MenuItem[];
@@ -79,13 +79,13 @@ export interface Menu {
 }
 
 export interface Category {
-  id: string;
+  id: number;
   name: string;          // Име на категорията (Бургери, Пици и т.н.)
   description?: string;
   image?: string;        // URL към изображение
   order: number;         // За подредба
   active: boolean;
-  menuId: string;
+  menuId: number;
   menu?: Menu;
   items?: MenuItem[];
   createdAt: Date;
@@ -93,12 +93,12 @@ export interface Category {
 }
 
 export interface MenuItem {
-  id: string;
+  id: number;
   name: string;          // Име на продукта
   description?: string;  // Описание
-  categoryId: string;
+  categoryId: number;
   category?: Category;
-  menuId: string;
+  menuId: number;
   menu?: Menu;
   priceBGN: number;      // Цена в лева
   priceEUR: number;      // Цена в евро
@@ -142,13 +142,13 @@ export interface UpdateClientDto extends Partial<CreateClientDto> {
 
 export interface CreateMenuDto {
   name: string;
-  clientId: string;
-  templateId: string;
+  clientId: number;
+  templateId?: number;
 }
 
 export interface UpdateMenuDto {
   name?: string;
-  templateId?: string;
+  templateId?: number;
   active?: boolean;
   published?: boolean;
 }
@@ -158,7 +158,7 @@ export interface CreateCategoryDto {
   description?: string;
   image?: string;
   order?: number;
-  menuId: string;
+  menuId: number;
 }
 
 export interface UpdateCategoryDto extends Partial<CreateCategoryDto> {
@@ -168,8 +168,8 @@ export interface UpdateCategoryDto extends Partial<CreateCategoryDto> {
 export interface CreateMenuItemDto {
   name: string;
   description?: string;
-  categoryId: string;
-  menuId: string;
+  categoryId: number;
+  menuId: number;
   priceBGN: number;
   priceEUR: number;
   weight?: number;

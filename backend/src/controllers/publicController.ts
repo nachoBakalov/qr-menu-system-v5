@@ -187,7 +187,7 @@ export const getPublishedMenuItems = async (req: Request, res: Response) => {
     // Verify category belongs to this menu
     const category = await prisma.category.findFirst({
       where: {
-        id: categoryId as string,
+        id: parseInt(categoryId as string),
         menuId: client.menu.id,
         active: true
       }
@@ -269,7 +269,8 @@ export const getPublishedMenuItems = async (req: Request, res: Response) => {
 // Generate QR code for client menu
 export const generateQRCode = async (req: Request, res: Response) => {
   try {
-    const { clientId } = req.params;
+    const { id } = req.params;
+    const clientId = parseInt(id);
     
     // Find client
     const client = await prisma.client.findUnique({
@@ -346,13 +347,15 @@ export const generateQRCode = async (req: Request, res: Response) => {
 // Get QR code for client (if exists)
 export const getQRCode = async (req: Request, res: Response) => {
   try {
-    const { clientId } = req.params;
+    const { id, clientSlug } = req.params;
+    
+    // If clientSlug is provided, find by slug, otherwise by clientId
+    const whereCondition = clientSlug 
+      ? { client: { slug: clientSlug, active: true } }
+      : { clientId: parseInt(id), client: { active: true } };
     
     const menu = await prisma.menu.findFirst({
-      where: { 
-        clientId: clientId,
-        client: { active: true }
-      },
+      where: whereCondition,
       include: {
         client: {
           select: {

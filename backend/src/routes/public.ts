@@ -26,13 +26,16 @@ router.get('/menu/:clientSlug/categories', validate(slugParamsSchema, 'params'),
 // Get published menu items by category for client
 router.get('/menu/:clientSlug/categories/:categoryId/items', getPublishedMenuItems);
 
+// Get QR code for client menu (public access)
+router.get('/qr/:clientSlug', validate(slugParamsSchema, 'params'), getQRCode);
+
 // Admin routes (authentication required)
 router.use(authenticate);
 
 // Generate QR code for client menu
-router.post('/qr-code/:clientId/generate', validate(paramsSchema, 'params'), generateQRCode);
+router.post('/qr-code/:id/generate', validate(paramsSchema, 'params'), generateQRCode);
 
 // Get existing QR code for client
-router.get('/qr-code/:clientId', validate(paramsSchema, 'params'), getQRCode);
+router.get('/qr-code/:id', validate(paramsSchema, 'params'), getQRCode);
 
 export default router;

@@ -65,7 +65,7 @@ export const createTemplate = async (req: Request, res: Response) => {
       data: {
         name,
         description,
-        config: {},
+
         active: true
       }
     });
@@ -92,7 +92,7 @@ export const updateTemplate = async (req: Request, res: Response) => {
     const { name, description, active } = req.body;
 
     const template = await prisma.template.update({
-      where: { id: id },
+      where: { id: parseInt(id) },
       data: {
         name,
         description,
@@ -127,7 +127,7 @@ export const deleteTemplate = async (req: Request, res: Response) => {
     const { id } = req.params;
 
     await prisma.template.update({
-      where: { id: id },
+      where: { id: parseInt(id) },
       data: { active: false }
     });
 

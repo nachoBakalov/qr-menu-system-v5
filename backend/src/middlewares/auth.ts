@@ -14,7 +14,7 @@ declare global {
   namespace Express {
     interface Request {
       user?: {
-        id: string;
+        id: number;
         email: string;
         role: string;
       };
@@ -48,7 +48,7 @@ export const authenticate = async (
 
     // Намираме потребителя в базата
     const user = await prisma.user.findUnique({
-      where: { id: decoded.userId },
+      where: { id: parseInt(decoded.userId) },
       select: {
         id: true,
         email: true,
@@ -63,7 +63,7 @@ export const authenticate = async (
 
     // Добавяме потребителя към request обекта
     req.user = {
-      id: user.id,
+      id: user.id, // Вече е number от Prisma
       email: user.email,
       role: user.role
     };

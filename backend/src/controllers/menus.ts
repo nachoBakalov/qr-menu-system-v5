@@ -97,8 +97,8 @@ const getMenuById = asyncHandler(async (req: Request, res: Response) => {
           id: true,
           name: true,
           description: true,
-          config: true,
-          preview: true
+
+
         }
       },
       categories: {
@@ -143,12 +143,22 @@ const getMenuById = asyncHandler(async (req: Request, res: Response) => {
  * Създава ново меню за клиент
  */
 const createMenu = asyncHandler(async (req: Request, res: Response) => {
-  const menuData: CreateMenuDto = req.body;
+  const menuData: CreateMenuDto = {
+    ...req.body,
+    clientId: parseInt(req.body.clientId),
+    templateId: req.body.templateId ? parseInt(req.body.templateId) : undefined
+  };
+
+  console.log('🔍 Debug - menuData:', menuData);
+  console.log('🔍 Debug - clientId type:', typeof menuData.clientId);
+  console.log('🔍 Debug - clientId value:', menuData.clientId);
 
   // Проверяваме дали клиентът съществува
   const client = await prisma.client.findUnique({
     where: { id: menuData.clientId }
   });
+
+  console.log('🔍 Debug - found client:', client);
 
   if (!client) {
     throw createError('Клиентът не е намерен', 404);
@@ -163,13 +173,16 @@ const createMenu = asyncHandler(async (req: Request, res: Response) => {
     throw createError('Този клиент вече има създадено меню', 400);
   }
 
-  // Проверяваме дали темплейтът съществува
-  const template = await prisma.template.findUnique({
-    where: { id: menuData.templateId }
-  });
+  // Проверяваме дали темплейтът съществува (само ако е предоставен)
+  let template = null;
+  if (menuData.templateId) {
+    template = await prisma.template.findUnique({
+      where: { id: menuData.templateId }
+    });
 
-  if (!template) {
-    throw createError('Темплейтът не е намерен', 404);
+    if (!template) {
+      throw createError('Темплейтът не е намерен', 404);
+    }
   }
 
   // Създаваме менюто
@@ -203,7 +216,7 @@ const createMenu = asyncHandler(async (req: Request, res: Response) => {
     id: menu.id,
     name: menu.name,
     client: menu.client.name,
-    template: menu.template.name
+    template: menu.template?.name
   });
 
   res.status(201).json({
