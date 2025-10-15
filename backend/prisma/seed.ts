@@ -90,12 +90,18 @@ async function main() {
   ];
 
   for (const templateData of templates) {
-    const template = await prisma.template.upsert({
-      where: { name: templateData.name },
-      update: {},
-      create: templateData
+    const existingTemplate = await prisma.template.findFirst({
+      where: { name: templateData.name }
     });
-    console.log('🎨 Създаден темплейт:', template.name);
+    
+    if (!existingTemplate) {
+      const template = await prisma.template.create({
+        data: templateData
+      });
+      console.log('🎨 Създаден темплейт:', template.name);
+    } else {
+      console.log('🎨 Темплейт вече съществува:', existingTemplate.name);
+    }
   }
 
   // Създаваме тестов клиент

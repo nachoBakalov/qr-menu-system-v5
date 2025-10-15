@@ -13,7 +13,7 @@ import {
   createTemplate,
   updateTemplate,
   deleteTemplate
-} from '../controllers/templateControllerSimple';
+} from '../controllers/templateController';
 
 const router = Router();
 
