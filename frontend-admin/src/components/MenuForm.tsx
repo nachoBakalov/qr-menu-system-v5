@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { clientService } from '../services/client';
-import type { MenuWithRelations, CreateMenuRequest, UpdateMenuRequest, Client, Template } from '../types/api';
+import { clientService, templateService } from '../services';
+import type { MenuWithRelations, CreateMenuRequest, UpdateMenuRequest, Client } from '../types/api';
 
 interface MenuFormProps {
   menu?: MenuWithRelations | null;
@@ -32,29 +32,23 @@ const MenuForm: React.FC<MenuFormProps> = ({
     queryFn: () => clientService.getClients({ limit: 100 }),
   });
 
-  const clientsResponse = clientsData?.data;
+  // Process clients data similar to ClientsPage
+  let clients: Client[] = [];
+  if (clientsData?.data) {
+    if (clientsData.data.data && Array.isArray(clientsData.data.data)) {
+      clients = clientsData.data.data;
+    } else if (Array.isArray(clientsData.data)) {
+      clients = clientsData.data;
+    }
+  }
 
-  // For now, we'll use mock templates until we implement the template service
-  const mockTemplates: Template[] = [
-    {
-      id: 1,
-      name: 'Класически дизайн',
-      description: 'Традиционен дизайн подходящ за всички видове заведения',
-      config: {},
-      active: true,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    },
-    {
-      id: 2,
-      name: 'Модерен дизайн',
-      description: 'Съвременен минималистичен дизайн',
-      config: {},
-      active: true,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    },
-  ];
+  // Fetch templates for dropdown
+  const { data: templatesData, isLoading: templatesLoading } = useQuery({
+    queryKey: ['templates'],
+    queryFn: () => templateService.getTemplates({ active: true }),
+  });
+
+  const templatesResponse = templatesData?.data?.data || []; // templatesData.data is TemplateListResponse, .data is Template[]
 
   useEffect(() => {
     if (menu) {
@@ -110,7 +104,7 @@ const MenuForm: React.FC<MenuFormProps> = ({
   };
 
   const getSelectedClient = () => {
-    return clientsResponse?.find((client: Client) => client.id === formData.clientId);
+    return clients.find((client: Client) => client.id === formData.clientId);
   };
 
   return (
@@ -151,9 +145,9 @@ const MenuForm: React.FC<MenuFormProps> = ({
           {clientsLoading ? (
             <option disabled>Зареждане на заведения...</option>
           ) : (
-            clientsResponse
-              ?.filter((client: Client) => client.active)
-              ?.map((client: Client) => (
+            clients
+              .filter((client: Client) => client.active)
+              .map((client: Client) => (
                 <option key={client.id} value={client.id}>
                   {client.name}
                 </option>
@@ -207,14 +201,17 @@ const MenuForm: React.FC<MenuFormProps> = ({
           }))}
         >
           <option value="">Използване на стандартния дизайн</option>
-          {mockTemplates
-            .filter(template => template.active)
-            .map((template) => (
-              <option key={template.id} value={template.id}>
-                {template.name}
-              </option>
-            ))
-          }
+          {templatesLoading ? (
+            <option disabled>Зареждане...</option>
+          ) : (
+            templatesResponse
+              .filter((template) => template.active)
+              .map((template) => (
+                <option key={template.id} value={template.id}>
+                  {template.name} {template.description && `- ${template.description}`}
+                </option>
+              ))
+          )}
         </select>
         <div className="form-help">
           Можете да промените дизайна на менюто по-късно

@@ -49,15 +49,53 @@ const MenusPage: React.FC = () => {
     queryFn: () => clientService.getClients({ limit: 100 }),
   });
 
-  // Extract data from API responses
-  const menusResponse = menusData?.data;
-  const clientsResponse = clientsData?.data;
+  // Extract data from API responses and handle different response structures
+  let menus: any[] = [];
+  let pagination: any = null;
+  
+  if (menusData?.data) {
+    const responseData = menusData.data as any;
+    
+    // If backend returns { data: Menu[], pagination: {...} }
+    if (Array.isArray(responseData.data)) {
+      menus = responseData.data;
+      pagination = responseData.pagination;
+    }
+    // If backend returns { data: { menus: Menu[], pagination: {...} } }
+    else if (responseData.menus && Array.isArray(responseData.menus)) {
+      menus = responseData.menus;
+      pagination = responseData.pagination;
+    }
+    // If backend returns { data: Menu[] } (current case)
+    else if (Array.isArray(responseData)) {
+      menus = responseData;
+      pagination = (menusData as any).pagination || { currentPage: 1, totalPages: 1, totalCount: menus.length };
+    }
+  }
+  
+  // Debug logging
+  console.log('🍽️ MenusPage Debug:', {
+    menusData,
+    processedMenus: menus,
+    menuCount: menus.length,
+    pagination,
+  });
+  
+  // Process clients data similar to ClientsPage
+  let clients: any[] = [];
+  if (clientsData?.data) {
+    if (clientsData.data.data && Array.isArray(clientsData.data.data)) {
+      clients = clientsData.data.data;
+    } else if (Array.isArray(clientsData.data)) {
+      clients = clientsData.data;
+    }
+  }
 
   // Create menu mutation
   const createMenuMutation = useMutation({
     mutationFn: (data: CreateMenuRequest) => menuService.createMenu(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['menus'] });
+      queryClient.invalidateQueries({ predicate: (query) => query.queryKey[0] === 'menus' }); // Invalidate all menus queries
       setIsCreateModalOpen(false);
     },
   });
@@ -67,7 +105,7 @@ const MenusPage: React.FC = () => {
     mutationFn: ({ id, data }: { id: number; data: UpdateMenuRequest }) => 
       menuService.updateMenu(id, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['menus'] });
+      queryClient.invalidateQueries({ predicate: (query) => query.queryKey[0] === 'menus' }); // Invalidate all menus queries
       setEditingMenu(null);
     },
   });
@@ -76,7 +114,7 @@ const MenusPage: React.FC = () => {
   const deleteMenuMutation = useMutation({
     mutationFn: (id: number) => menuService.deleteMenu(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['menus'] });
+      queryClient.invalidateQueries({ predicate: (query) => query.queryKey[0] === 'menus' }); // Invalidate all menus queries
       setDeletingMenu(null);
     },
   });
@@ -86,7 +124,7 @@ const MenusPage: React.FC = () => {
     mutationFn: ({ id, published }: { id: number; published: boolean }) =>
       menuService.updateMenu(id, { published }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['menus'] });
+      queryClient.invalidateQueries({ predicate: (query) => query.queryKey[0] === 'menus' }); // Invalidate all menus queries
     },
   });
 
@@ -190,7 +228,7 @@ const MenusPage: React.FC = () => {
             className="filter-select"
           >
             <option value="">Всички заведения</option>
-            {clientsResponse?.map((client) => (
+            {clients.map((client: any) => (
               <option key={client.id} value={client.id}>
                 {client.name}
               </option>
@@ -230,7 +268,7 @@ const MenusPage: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {!menusResponse || !menusResponse.menus || menusResponse.menus.length === 0 ? (
+              {!menus || menus.length === 0 ? (
                 <tr>
                   <td colSpan={8} className="no-data">
                     {state.search || state.selectedClient 
@@ -240,7 +278,7 @@ const MenusPage: React.FC = () => {
                   </td>
                 </tr>
               ) : (
-                menusResponse.menus.map((menu) => (
+                menus.map((menu: any) => (
                   <tr key={menu.id}>
                     <td>
                       <div className="table-primary">{menu.name}</div>
@@ -311,24 +349,24 @@ const MenusPage: React.FC = () => {
       </div>
 
       {/* Pagination */}
-      {menusResponse?.pagination && menusResponse.pagination.totalPages > 1 && (
+      {pagination && pagination.totalPages > 1 && (
         <div className="pagination">
           <button
             onClick={() => handlePageChange(state.page - 1)}
-            disabled={!menusResponse.pagination.hasPrev}
+            disabled={!pagination.hasPrev}
             className="pagination-btn"
           >
             ← Предишна
           </button>
           
           <div className="pagination-info">
-            Страница {state.page} от {menusResponse.pagination.totalPages}
-            ({menusResponse.pagination.total} общо)
+            Страница {state.page} от {pagination.totalPages}
+            ({pagination.totalCount || pagination.total} общо)
           </div>
           
           <button
             onClick={() => handlePageChange(state.page + 1)}
-            disabled={!menusResponse.pagination.hasNext}
+            disabled={!pagination.hasNext}
             className="pagination-btn"
           >
             Следваща →

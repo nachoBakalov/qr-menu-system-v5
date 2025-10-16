@@ -3,4 +3,5 @@ export { clientService } from './client';
 export { menuService } from './menu';
 export { categoryService } from './category';
 export { menuItemService } from './menuItem';
+export { templateService } from './template';
 export { apiClient } from './api';
