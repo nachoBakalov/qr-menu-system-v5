@@ -43,7 +43,7 @@ const HomePage: React.FC = () => {
         <div className="container">
           <div className="loading">
             <div className="loading__spinner"></div>
-            <p>Зареждане на менюто...</p>
+            <p className="loading__text">Зареждане на менюто...</p>
           </div>
         </div>
       </div>
@@ -55,8 +55,8 @@ const HomePage: React.FC = () => {
       <div className="home-page">
         <div className="container">
           <div className="error">
-            <h1>Грешка</h1>
-            <p>{error instanceof Error ? error.message : 'Менюто не може да бъде заредено'}</p>
+            <h1 className="error__title">Грешка</h1>
+            <p className="error__message">{error instanceof Error ? error.message : 'Менюто не може да бъде заредено'}</p>
           </div>
         </div>
       </div>
@@ -73,9 +73,10 @@ const HomePage: React.FC = () => {
 
       {/* Menu Categories */}
       <section className="menu-section">
+        <div className="container">
           <h2 className="menu-section__title">Нашето Меню</h2>
           
-          <div className="categories-grid">
+          <div className="categories-grid grid-responsive grid-2-mobile-lg grid-3 grid-4">
             {menu.categories
               .filter(category => category.isActive)
               .sort((a, b) => a.order - b.order)
@@ -85,7 +86,7 @@ const HomePage: React.FC = () => {
                   <Link 
                     key={category.id} 
                     to={`/menu/${clientSlug}/category/${category.id}`}
-                    className="category-card"
+                    className="category-card touch-target"
                     style={{
                       backgroundImage: `url(${backgroundImage})`
                     }}
@@ -99,6 +100,7 @@ const HomePage: React.FC = () => {
                 );
               })}
           </div>
+        </div>
       </section>
     </div>
   );

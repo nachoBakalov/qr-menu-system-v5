@@ -1,3 +1,6 @@
+// Use modern Sass import
+@use './responsive';
+
 // CSS Reset & Base Styles
 * {
   margin: 0;

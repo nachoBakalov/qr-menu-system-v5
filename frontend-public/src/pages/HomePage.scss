@@ -1,25 +1,69 @@
+// Use modern Sass import
+@use '../styles/responsive' as *;
+
+// Mobile First HomePage Styles
+// ============================
+
 .home-page {
   min-height: 100vh;
   width: 100%;
-  background: var(--background-color, #ffffff);
+  background: var(--color-background, #ffffff);
+  
+  // Safe area handling for mobile devices with notches
+  padding-top: env(safe-area-inset-top);
 }
 
+// LOADING & ERROR STATES
+// ======================
 .loading, .error {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 400px;
+  min-height: 60vh;
   text-align: center;
+  padding: 2rem 1rem;
+  
+  @include tablet-up {
+    min-height: 400px;
+    padding: 3rem 2rem;
+  }
   
   &__spinner {
-    width: 40px;
-    height: 40px;
-    border: 3px solid var(--border-color, #e2e8f0);
-    border-top: 3px solid var(--primary-color, #3182ce);
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--color-border, #e2e8f0);
+    border-top: 2px solid var(--color-primary, #3182ce);
     border-radius: 50%;
     animation: spin 1s linear infinite;
     margin-bottom: 1rem;
+    
+    @include tablet-up {
+      width: 40px;
+      height: 40px;
+      border-width: 3px;
+    }
+  }
+  
+  &__text, &__message {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary, #6b7280);
+    line-height: 1.5;
+    
+    @include tablet-up {
+      font-size: 1rem;
+    }
+  }
+  
+  &__title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text, #1a202c);
+    margin-bottom: 0.5rem;
+    
+    @include tablet-up {
+      font-size: 1.5rem;
+    }
   }
 }
 
@@ -28,61 +72,51 @@
   100% { transform: rotate(360deg); }
 }
 
-
-
+// MENU SECTION
+// ============
 .menu-section {
-  padding: var(--spacing-12, 3rem) 0;
+  // Mobile: smaller padding
+  padding: 2rem 0 3rem;
   background: var(--color-background, #ffffff);
+  
+  @include tablet-up {
+    padding: 3rem 0 4rem;
+  }
+  
+  @include desktop-up {
+    padding: 4rem 0 5rem;
+  }
   
   &__title {
     text-align: center;
     font-family: var(--font-family-heading, inherit);
-    font-size: var(--font-size-3xl, clamp(1.875rem, 4vw, 2.25rem));
     font-weight: var(--font-weight-bold, 700);
     color: var(--color-text, #1a202c);
-    margin: 0 0 var(--spacing-8, 2rem) 0;
     letter-spacing: var(--letter-spacing-tight, -0.025em);
-    padding: 0 1rem;
+    margin-bottom: 1.5rem;
+    
+    // Mobile First responsive typography
+    font-size: 1.5rem;
+    line-height: 1.2;
+    
+    @include mobile-lg-up {
+      font-size: 1.75rem;
+    }
+    
+    @include tablet-up {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    @include desktop-up {
+      font-size: 2.25rem;
+      margin-bottom: 2.5rem;
+    }
   }
 }
 
-.categories-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
-  
-  @media (max-width: 480px) {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    padding: 0 0.75rem;
-  }
-  
-  @media (min-width: 481px) and (max-width: 767px) {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.25rem;
-  }
-  
-  @media (min-width: 768px) and (max-width: 1023px) {
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-  }
-  
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 2rem;
-    padding: 0 2rem;
-  }
-  
-  @media (min-width: 1400px) {
-    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-    gap: 2.5rem;
-  }
-}
-
+// CATEGORY CARDS
+// ==============
 .category-card {
   position: relative;
   display: flex;
@@ -92,33 +126,69 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  border-radius: var(--border-radius-lg, 12px);
+  border-radius: var(--border-radius-lg, 8px);
   overflow: hidden;
   transition: var(--card-transition, all 0.3s ease);
   cursor: pointer;
-  aspect-ratio: var(--category-card-aspect-ratio, 16 / 9);
   text-decoration: none;
   color: white;
-  min-height: 200px;
   
-  &:hover {
-    transform: var(--card-hover-transform, translateY(-4px));
-    box-shadow: var(--shadow-xl, 0 20px 40px rgba(0, 0, 0, 0.15));
-    text-decoration: none;
-    color: white;
-    
-    .category-card__overlay {
-      background: rgba(0, 0, 0, 0.5);
-    }
-    
-    .category-card__title {
-      transform: translateY(-2px);
+  // Mobile First sizing
+  min-height: 140px;
+  aspect-ratio: 16 / 10;
+  
+  @include mobile-lg-up {
+    min-height: 160px;
+    border-radius: 10px;
+  }
+  
+  @include tablet-up {
+    min-height: 180px;
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
+  }
+  
+  @include desktop-up {
+    min-height: 200px;
+  }
+  
+  // Touch device optimizations
+  @media (hover: none) and (pointer: coarse) {
+    // Remove hover effects on touch devices
+    &:active {
+      transform: scale(0.98);
+      
+      .category-card__overlay {
+        background: rgba(0, 0, 0, 0.6);
+      }
     }
   }
   
+  // Hover effects for devices that support hover
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      transform: var(--card-hover-transform, translateY(-4px));
+      box-shadow: var(--shadow-xl, 0 20px 40px rgba(0, 0, 0, 0.15));
+      
+      .category-card__overlay {
+        background: rgba(0, 0, 0, 0.5);
+      }
+      
+      .category-card__title {
+        transform: translateY(-2px);
+      }
+    }
+  }
+  
+  // Focus states for accessibility
   &:focus {
-    outline: 3px solid var(--color-primary, #3182ce);
-    outline-offset: 3px;
+    outline: 2px solid var(--color-primary, #3182ce);
+    outline-offset: 2px;
+    
+    @include tablet-up {
+      outline-width: 3px;
+      outline-offset: 3px;
+    }
     
     .category-card__overlay {
       background: linear-gradient(
@@ -131,14 +201,20 @@
   }
   
   &:focus-visible {
-    outline: 3px solid var(--color-primary, #3182ce);
-    outline-offset: 3px;
+    outline: 2px solid var(--color-primary, #3182ce);
+    outline-offset: 2px;
+    
+    @include tablet-up {
+      outline-width: 3px;
+      outline-offset: 3px;
+    }
   }
   
+  // Accessibility: respect user preferences
   @media (prefers-reduced-motion: reduce) {
     transition: none;
     
-    &:hover {
+    &:hover, &:active {
       transform: none;
     }
     
@@ -147,6 +223,8 @@
     }
   }
   
+  // CATEGORY CARD ELEMENTS
+  // ======================
   &__overlay {
     position: absolute;
     top: 0;
@@ -161,43 +239,70 @@
     );
     transition: all 0.3s ease;
     z-index: 1;
+    
+    // Respect reduced motion preference
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
   }
   
   &__content {
     position: relative;
     z-index: 2;
     text-align: center;
-    padding: 1.5rem;
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    
+    // Mobile: smaller padding
+    padding: 1rem;
+    
+    @include mobile-lg-up {
+      padding: 1.25rem;
+    }
+    
+    @include tablet-up {
+      padding: 1.5rem;
+    }
   }
   
   &__title {
     font-family: var(--font-family-heading, inherit);
-    font-size: clamp(1.5rem, 2.5vw, 2rem);
     font-weight: var(--font-weight-bold, 700);
     color: white;
     margin: 0;
     text-transform: uppercase;
-    letter-spacing: var(--letter-spacing-wide, 0.05em);
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
     line-height: 1.2;
     transition: all 0.3s ease;
     
-    @media (max-width: 480px) {
-      font-size: 1.5rem;
-      letter-spacing: 0.03em;
+    // Mobile First responsive sizing
+    font-size: 1.125rem;
+    letter-spacing: 0.025em;
+    
+    @include mobile-lg-up {
+      font-size: 1.25rem;
+      letter-spacing: 0.035em;
     }
     
-    @media (min-width: 768px) {
+    @include tablet-up {
+      font-size: 1.5rem;
+      letter-spacing: 0.05em;
+    }
+    
+    @include desktop-up {
       font-size: 1.75rem;
     }
     
-    @media (min-width: 1024px) {
-      font-size: 2rem;
+    // Ensure text doesn't break awkwardly on small screens
+    word-wrap: break-word;
+    hyphens: auto;
+    
+    // Respect reduced motion preference
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
     }
   }
 }
