@@ -8,6 +8,12 @@ export const categoryService = {
     if (menuId) {
       url += `&menuId=${menuId}`;
     }
+    console.log('🍽️ CategoryService Debug:', {
+      page,
+      limit,
+      menuId,
+      finalUrl: url
+    });
     const response = await apiClient.get<Category[]>(url);
     return response.data;
   },

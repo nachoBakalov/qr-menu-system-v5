@@ -7,6 +7,8 @@ import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import ClientsPage from './pages/ClientsPage';
 import MenusPage from './pages/MenusPage';
+import CategoriesPage from './pages/CategoriesPage';
+import MenuItemsPage from './pages/MenuItemsPage';
 
 function App() {
   return (
@@ -25,8 +27,8 @@ function App() {
           <Route path="dashboard" element={<DashboardPage />} />
           <Route path="clients" element={<ClientsPage />} />
           <Route path="menus" element={<MenusPage />} />
-          <Route path="categories" element={<div className="p-6">Categories Page - Coming Soon</div>} />
-          <Route path="menu-items" element={<div className="p-6">Menu Items Page - Coming Soon</div>} />
+          <Route path="categories" element={<CategoriesPage />} />
+          <Route path="menu-items" element={<MenuItemsPage />} />
           <Route path="qr-codes" element={<div className="p-6">QR Codes Page - Coming Soon</div>} />
         </Route>
       </Routes>
