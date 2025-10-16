@@ -291,6 +291,7 @@ const MenuItemsPage: React.FC = () => {
             <thead>
               <tr>
                 <th>Продукт</th>
+                <th>Изображение</th>
                 <th>Категория</th>
                 <th>Цени</th>
                 <th>Тегло</th>
@@ -331,6 +332,22 @@ const MenuItemsPage: React.FC = () => {
                           <div className="product-allergens">
                             <small>⚠️ {item.allergens.join(', ')}</small>
                           </div>
+                        )}
+                      </div>
+                    </td>
+                    <td>
+                      <div className="table-image">
+                        {item.image ? (
+                          <img 
+                            src={item.image} 
+                            alt={item.name}
+                            className="product-image"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).style.display = 'none';
+                            }}
+                          />
+                        ) : (
+                          <div className="no-image">Без изображение</div>
                         )}
                       </div>
                     </td>
@@ -493,6 +510,7 @@ const MenuItemForm: React.FC<MenuItemFormProps> = ({
     priceEUR: menuItem?.priceEUR || 0,
     weight: menuItem?.weight || 0,
     weightUnit: menuItem?.weightUnit || 'g',
+    image: menuItem?.image || '',
     menuId: menuItem?.menuId || 0,
     categoryId: menuItem?.categoryId || 0,
     tags: menuItem?.tags.join(', ') || '',
@@ -535,6 +553,15 @@ const MenuItemForm: React.FC<MenuItemFormProps> = ({
       newErrors.order = 'Пореден номер трябва да е положително число';
     }
 
+    // Validate image URL if provided
+    if (formData.image.trim()) {
+      try {
+        new URL(formData.image);
+      } catch {
+        newErrors.image = 'Моля въведете валиден URL адрес';
+      }
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -553,6 +580,7 @@ const MenuItemForm: React.FC<MenuItemFormProps> = ({
       priceEUR: formData.priceEUR,
       weight: formData.weight > 0 ? formData.weight : undefined,
       weightUnit: formData.weight > 0 ? formData.weightUnit : undefined,
+      image: formData.image.trim() || undefined,
       menuId: formData.menuId,
       categoryId: formData.categoryId,
       tags: formData.tags ? formData.tags.split(',').map(tag => tag.trim()).filter(Boolean) : [],
@@ -736,6 +764,27 @@ const MenuItemForm: React.FC<MenuItemFormProps> = ({
             <option value="g">гр</option>
             <option value="ml">мл</option>
           </select>
+        </div>
+
+        {/* Image URL */}
+        <div className="form-group span-2">
+          <label htmlFor="image" className="form-label">
+            URL на изображение
+          </label>
+          <input
+            id="image"
+            type="url"
+            className={`form-input ${errors.image ? 'form-input--error' : ''}`}
+            placeholder="https://example.com/image.jpg"
+            value={formData.image}
+            onChange={(e) => setFormData(prev => ({ ...prev, image: e.target.value }))}
+          />
+          {errors.image && (
+            <div className="form-error">{errors.image}</div>
+          )}
+          <div className="form-help">
+            Въведете пълен URL адрес към изображението на продукта
+          </div>
         </div>
 
         {/* Tags */}
