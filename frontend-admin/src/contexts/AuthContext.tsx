@@ -32,6 +32,7 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  console.log('🔐 [AuthProvider] Rendering AuthProvider');
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -71,6 +72,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     isAuthenticated: !!user && authService.isAuthenticated(),
   };
 
+  console.log('🔐 [AuthProvider] Providing context with user:', user, 'isLoading:', isLoading);
+  
   return (
     <AuthContext.Provider value={value}>
       {children}

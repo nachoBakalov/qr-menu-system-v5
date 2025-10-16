@@ -9,8 +9,10 @@ import ClientsPage from './pages/ClientsPage';
 import MenusPage from './pages/MenusPage';
 import CategoriesPage from './pages/CategoriesPage';
 import MenuItemsPage from './pages/MenuItemsPage';
+import QRCodesPage from './pages/QRCodesPage';
 
 function App() {
+  console.log('📱 [App] Rendering App component');
   return (
     <AuthProvider>
       <Routes>
@@ -29,7 +31,7 @@ function App() {
           <Route path="menus" element={<MenusPage />} />
           <Route path="categories" element={<CategoriesPage />} />
           <Route path="menu-items" element={<MenuItemsPage />} />
-          <Route path="qr-codes" element={<div className="p-6">QR Codes Page - Coming Soon</div>} />
+          <Route path="qr-codes" element={<QRCodesPage />} />
         </Route>
       </Routes>
     </AuthProvider>

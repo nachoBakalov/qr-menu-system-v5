@@ -1,0 +1,171 @@
+@use '../variables' as *;
+
+// QR Codes page styles
+.qr-codes-page {
+  .qr-codes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: $spacing-6;
+    margin-top: $spacing-6;
+  }
+
+  .qr-code-card {
+    background: $white;
+    border: 1px solid $gray-200;
+    border-radius: $border-radius-lg;
+    overflow: hidden;
+    box-shadow: $shadow-sm;
+    transition: $transition-all;
+
+    &:hover {
+      box-shadow: $shadow-md;
+      border-color: $gray-300;
+    }
+
+    .card-header {
+      padding: $spacing-4;
+      border-bottom: 1px solid $gray-200;
+      background: $gray-50;
+
+      .client-name {
+        margin: 0 0 $spacing-2 0;
+        font-size: $font-size-lg;
+        font-weight: 600;
+        color: $gray-900;
+      }
+
+      .client-details {
+        display: flex;
+        align-items: center;
+        gap: $spacing-3;
+
+        .client-slug {
+          font-family: 'Courier New', monospace;
+          font-size: $font-size-sm;
+          color: $gray-600;
+          background: $gray-100;
+          padding: 2px 6px;
+          border-radius: $border-radius-sm;
+        }
+      }
+    }
+
+    .card-body {
+      padding: $spacing-4;
+    }
+  }
+
+  .qr-code-display {
+    text-align: center;
+
+    .qr-image-container {
+      margin-bottom: $spacing-4;
+      
+      .qr-image {
+        width: 200px;
+        height: 200px;
+        border: 1px solid $gray-200;
+        border-radius: $border-radius-md;
+        background: $white;
+      }
+    }
+
+    .qr-info {
+      margin-bottom: $spacing-4;
+      text-align: left;
+
+      .menu-url {
+        label {
+          display: block;
+          font-size: $font-size-sm;
+          font-weight: 500;
+          color: $gray-700;
+          margin-bottom: $spacing-1;
+        }
+
+        .url-link {
+          display: block;
+          font-size: $font-size-sm;
+          color: $primary-color;
+          text-decoration: none;
+          word-break: break-all;
+          padding: $spacing-2;
+          background: $gray-50;
+          border-radius: $border-radius-sm;
+          border: 1px solid $gray-200;
+
+          &:hover {
+            background: $gray-100;
+            border-color: $gray-300;
+          }
+        }
+      }
+    }
+
+    .qr-actions {
+      display: flex;
+      gap: $spacing-2;
+      justify-content: center;
+
+      .btn {
+        flex: 1;
+      }
+    }
+  }
+
+  .no-qr-code {
+    text-align: center;
+    padding: $spacing-6 $spacing-2;
+
+    .no-qr-placeholder {
+      margin-bottom: $spacing-4;
+
+      .placeholder-icon {
+        font-size: 48px;
+        margin-bottom: $spacing-2;
+        opacity: 0.5;
+      }
+
+      p {
+        color: $gray-600;
+        font-size: $font-size-sm;
+        margin: 0;
+      }
+    }
+  }
+
+  .status-badge {
+    font-size: $font-size-xs;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: $border-radius-full;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+
+      &--active {
+        background: $gray-100;
+        color: $success-color;
+      }    &--inactive {
+      background: $gray-100;
+      color: $gray-600;
+    }
+  }
+
+  .no-data {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: $spacing-12 $spacing-4;
+    color: $gray-600;
+
+    h3 {
+      margin: 0 0 $spacing-2 0;
+      font-size: $font-size-lg;
+      color: $gray-700;
+    }
+
+    p {
+      margin: 0;
+      font-size: $font-size-sm;
+    }
+  }
+}
