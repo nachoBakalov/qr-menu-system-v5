@@ -1,0 +1,199 @@
+// CSS Reset & Base Styles
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  width: 100%;
+  max-width: none;
+  overflow-x: hidden;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  line-height: 1.6;
+  width: 100%;
+}
+
+// Mobile First CSS Variables (fallback values)
+:root {
+  // Theme colors will be applied dynamically by ThemeManager
+  // These are fallback values for universal theme
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+  --color-secondary: #10b981;
+  --color-accent: #6b7280;
+  --color-background: #ffffff;
+  --color-surface: #ffffff;
+  --color-text: #111827;
+  --color-text-secondary: #6b7280;
+  --color-border: #e5e7eb;
+  
+  // Typography (will be overridden by theme)
+  --font-family-heading: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-family-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  
+  // Spacing (Mobile First)
+  --container-padding: 1rem;
+  --header-height: 60px;
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+  
+  // Border Radius
+  --border-radius-sm: 6px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-xl: 16px;
+  
+  // Shadows
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+  
+  // Layout components (will be overridden by theme)
+  --header-bg: var(--color-surface);
+  --header-shadow: var(--shadow-sm);
+  --card-bg: var(--color-surface);
+}
+
+// Large Mobile breakpoint
+@media (min-width: 480px) {
+  :root {
+    --container-padding: 1.5rem;
+  }
+}
+
+// Tablet breakpoint  
+@media (min-width: 768px) {
+  :root {
+    --container-padding: 2rem;
+    --header-height: 70px;
+  }
+}
+
+// Desktop breakpoint
+@media (min-width: 1024px) {
+  :root {
+    --container-padding: 3rem;
+    --header-height: 80px;
+  }
+}
+
+// Force full width for key elements
+.layout, .layout__main, .home-page {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+// Base container class
+.container {
+  width: 100%;
+  // max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+// Button base styles
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  
+  &:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+  }
+}
+
+// Link styles
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// Input styles
+input, textarea, select {
+  font-family: inherit;
+  font-size: 1rem;
+  
+  &:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+  }
+}
+
+// Image responsive
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+// Utility classes
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.mt-0 { margin-top: 0; }
+.mt-1 { margin-top: var(--spacing-sm); }
+.mt-2 { margin-top: var(--spacing-md); }
+.mt-3 { margin-top: var(--spacing-lg); }
+
+.mb-0 { margin-bottom: 0; }
+.mb-1 { margin-bottom: var(--spacing-sm); }
+.mb-2 { margin-bottom: var(--spacing-md); }
+.mb-3 { margin-bottom: var(--spacing-lg); }
+
+.p-0 { padding: 0; }
+.p-1 { padding: var(--spacing-sm); }
+.p-2 { padding: var(--spacing-md); }
+.p-3 { padding: var(--spacing-lg); }
+
+// Accessibility
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Loading animation
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.loading-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+// Component imports (ще добавим когато създадем theme системата)
+// @import './themes/burger-pizza.scss';
+// @import './themes/restaurant.scss'; 
+// @import './themes/universal.scss';

@@ -18,7 +18,6 @@ export const getClientBySlug = async (req: Request, res: Response) => {
       },
       include: {
         menu: {
-          where: { published: true },
           include: {
             categories: {
               where: { active: true },
@@ -35,7 +34,7 @@ export const getClientBySlug = async (req: Request, res: Response) => {
       }
     });
 
-    if (!client || !client.menu) {
+    if (!client || !client.menu || !client.menu.published) {
       return res.status(404).json({
         success: false,
         message: 'Restaurant not found or menu not available'

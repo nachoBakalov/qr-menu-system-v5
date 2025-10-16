@@ -1,0 +1,75 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: var(--header-bg, #ffffff);
+  border-bottom: 1px solid var(--border-color, #e2e8f0);
+  box-shadow: var(--header-shadow, 0 1px 3px rgba(0, 0, 0, 0.1));
+  height: var(--header-height, 60px);
+  
+  @media (min-width: 768px) {
+    height: var(--header-height, 70px);
+  }
+  
+  @media (min-width: 1024px) {
+    height: var(--header-height, 80px);
+  }
+  
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    gap: 1rem;
+  }
+  
+  &__back-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: var(--primary-color, #3182ce);
+    color: white;
+    border-radius: var(--border-radius-md, 8px);
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background: var(--primary-color-hover, #2c5aa0);
+      transform: translateY(-1px);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+    
+    @media (min-width: 768px) {
+      width: 44px;
+      height: 44px;
+      font-size: 1.5rem;
+    }
+  }
+  
+  &__title {
+    font-weight: var(--font-weight-bold, 700);
+    font-size: 1.125rem;
+    color: var(--text-color, #1a202c);
+    
+    @media (min-width: 768px) {
+      font-size: 1.25rem;
+    }
+  }
+  
+  &__spacer {
+    width: 40px; // Same as back button for symmetry
+    
+    @media (min-width: 768px) {
+      width: 44px;
+    }
+  }
+}

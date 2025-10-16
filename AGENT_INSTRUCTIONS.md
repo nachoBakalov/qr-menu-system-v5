@@ -386,4 +386,469 @@ export const qrService = {
 ### Проект завършен за админ панел ✅
 V5 админ панелът е напълно функционален с всички CRUD операции, QR код генериране, и пълна административна функционалност за управление на QR меню системата.
 
+---
+
+## 🚀 V5 PUBLIC FRONTEND ПЛАН 
+
+### 🎯 Обща концепция
+**Mobile First QR Menu System** - публичен интерфейс за крайни потребители, достъпен чрез QR кода на ресторанта
+
+### Архитектура
+```
+V5/
+├── backend/           # ✅ Готов (Node.js + Express + Prisma + PostgreSQL)
+├── frontend-admin/    # ✅ Готов (React + TypeScript + Vite на port 5173)
+└── frontend-public/   # 🆕 Ще създадем (React + TypeScript + Vite на port 3000)
+    ├── public/           # Static assets, PWA manifest
+    ├── src/
+    │   ├── components/   # Reusable UI компоненти
+    │   │   ├── Header/
+    │   │   ├── HeroSection/
+    │   │   ├── CategoryCard/
+    │   │   ├── MenuItem/
+    │   │   ├── PriceFilter/
+    │   │   └── ui/       # Base компоненти (Button, Modal, etc.)
+    │   ├── pages/        # Главни страници
+    │   │   ├── HomePage.tsx
+    │   │   ├── CategoryPage.tsx
+    │   │   ├── MenuItemPage.tsx
+    │   │   └── ErrorPage.tsx
+    │   ├── services/     # API интеграция с V5 backend
+    │   │   ├── menuService.ts
+    │   │   └── apiClient.ts
+    │   ├── themes/       # Theme система
+    │   │   ├── burger-pizza/
+    │   │   ├── restaurant/
+    │   │   ├── universal/
+    │   │   └── ThemeProvider.tsx
+    │   ├── types/        # TypeScript типове
+    │   ├── utils/        # Helper функции
+    │   └── styles/       # Global CSS/SCSS
+    └── package.json
+```
+
+### 🎨 Theme System (3 дизайна)
+
+#### 1. **Burger & Pizza Theme** (базиран на V4 референция)
+- **Цветова схема**: `#E53E3E` (червено), `#FFC107` (жълто), `#2D3748` (тъмно)
+- **Typography**: Bold, playful шрифтове (Inter Bold, Open Sans)
+- **Визуален стил**: Casual, fun, енергични градиенти, дебели border-radius
+- **Animations**: Bouncy, quick transitions
+- **Target**: Fast food заведения, бургер къщи, пицарии
+
+#### 2. **Restaurant Theme** (елегантен)
+- **Цветова схема**: `#1A365D` (тъмно синьо), `#D69E2E` (злато), `#F7FAFC` (кремаво)
+- **Typography**: Serif шрифтове (Playfair Display, Lora), изчистени линии
+- **Визуален стил**: Minimal, sophisticated, тихи анимации, тънки линии
+- **Animations**: Smooth, elegant transitions
+- **Target**: Fine dining ресторанти, винарии, луксозни заведения
+
+#### 3. **Universal Theme** (универсален)
+- **Цветова схема**: `#4A5568` (сив), `#38A169` (зелен), `#FFFFFF` (бял)
+- **Typography**: Clean sans-serif (Inter, Source Sans Pro)
+- **Визуален стил**: Balanced, адаптивен, професионален, средни закръгления
+- **Animations**: Standard easing, professional feel
+- **Target**: Всички останали видове заведения (кафенета, сладкарници, etc.)
+
+### 📱 Mobile First Strategy
+
+#### Breakpoints
+```scss
+// Mobile First CSS Variables
+:root {
+  /* Mobile (320px+) - Default */
+  --container-padding: 1rem;
+  --header-height: 60px;
+  --grid-columns: 1;
+  --card-size: 100%;
+}
+
+@media (min-width: 480px) {
+  /* Large Mobile */
+  :root {
+    --grid-columns: 2;
+    --card-size: calc(50% - 0.5rem);
+  }
+}
+
+@media (min-width: 768px) {
+  /* Tablet */
+  :root {
+    --container-padding: 2rem;
+    --grid-columns: 3;
+    --header-height: 70px;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* Desktop */
+  :root {
+    --container-padding: 3rem;
+    --grid-columns: 4;
+    --header-height: 80px;
+  }
+}
+```
+
+#### Mobile First Features
+- **Touch-first интерфейс**: 44px+ бутони, swipe gestures
+- **Thumb-friendly навигация**: Bottom navigation на mobile
+- **Progressive image loading**: Lazy loading с placeholder
+- **Offline-ready**: Service Worker за caching
+- **Fast loading**: Code splitting, под 100ms initial load
+
+### 🛣️ Routing Structure
+
+```typescript
+// Public Routes (no authentication needed)
+/menu/:clientSlug                    # Начална страница на ресторанта
+/menu/:clientSlug/category/:categoryId   # Категория с продукти
+/menu/:clientSlug/item/:itemId          # Детайли за продукт
+/404                                # Error страница
+/offline                            # Offline fallback
+
+// URL Examples:
+// /menu/burger-house
+// /menu/burger-house/category/2
+// /menu/burger-house/item/15
+```
+
+### 📄 Page Detailed Breakdown
+
+#### HomePage (`/menu/:clientSlug`)
+**Layout Structure:**
+```
+┌─────────────────────────┐
+│       Header            │ ← Logo + navigation
+├─────────────────────────┤
+│     HeroSection         │ ← Restaurant info
+│  - Logo + Name          │
+│  - Description          │
+│  - Contact Info         │
+├─────────────────────────┤
+│   "Нашето Меню"        │ ← Section title
+├─────────────────────────┤
+│   CategoriesGrid        │ ← All categories
+│  [Cat1] [Cat2] [Cat3]   │
+│  [Cat4] [Cat5] [Cat6]   │
+├─────────────────────────┤
+│   PromoSection?         │ ← Optional promos
+└─────────────────────────┘
+```
+
+**Компоненти:**
+- `Header` - responsive меню, logo, back button
+- `HeroSection` - ресторант лого, име, описание, адрес, телефон
+- `CategoriesGrid` - grid layout с category карти
+- `PromoSection` - специални оферти (ако има в data)
+
+**API Calls:**
+- `GET /api/public/menu/:slug` - цялата меню информация
+
+**Features:**
+- Theme автоматично detection по menu template
+- Smooth scroll към секции
+- Category hover ефекти
+- Loading skeleton за всички секции
+
+#### CategoryPage (`/menu/:clientSlug/category/:categoryId`)
+**Layout Structure:**
+```
+┌─────────────────────────┐
+│       Header            │ ← Back button + category name
+├─────────────────────────┤
+│    CategoryHero         │ ← Category info + image
+├─────────────────────────┤
+│   CategorySlider        │ ← Horizontal category nav
+├─────────────────────────┤
+│    PriceFilter          │ ← Price range slider
+├─────────────────────────┤
+│   MenuItemsGrid         │ ← Filtered products
+│  [Item1] [Item2]        │
+│  [Item3] [Item4]        │
+├─────────────────────────┤
+│   BackToTop             │ ← Floating button
+└─────────────────────────┘
+```
+
+**Компоненти:**
+- `CategoryHero` - име, описание, cover image
+- `CategorySlider` - swipeable категории за бърза навигация  
+- `PriceFilter` - dual range slider за min/max цена
+- `MenuItemsGrid` - responsive grid с продукти
+- `BackToTop` - smooth scroll нагоре
+
+**Features:**
+- Client-side филтриране по цени
+- Infinite scroll или load more
+- Quick add to favorites (localStorage)
+- Swipe navigation между категории
+- Pull-to-refresh на mobile
+
+#### MenuItemPage (`/menu/:clientSlug/item/:itemId`)
+**Layout Structure:**
+```
+┌─────────────────────────┐
+│       Header            │ ← Back button + item name
+├─────────────────────────┤
+│     ItemImage           │ ← Large product image
+├─────────────────────────┤
+│    ItemDetails          │ ← Name, description, price
+├─────────────────────────┤
+│   NutritionalInfo       │ ← Weight, tags, allergens
+├─────────────────────────┤
+│   RelatedItems          │ ← Other items from category
+├─────────────────────────┤
+│   ShareSection          │ ← Social sharing
+└─────────────────────────┘
+```
+
+**Компоненти:**
+- `ItemImage` - zoom gallery, lazy loading
+- `ItemDetails` - име, описание, dual currency цени
+- `AllergenWarning` - алергени с иконки и предупреждения
+- `NutritionalInfo` - тегло, калории, тагове
+- `RelatedItems` - carousel с други продукти
+- `ShareSection` - социално споделяне + QR генериране
+
+**Features:**
+- Image zoom/pinch на mobile и desktop
+- Социално споделяне (Facebook, WhatsApp, копиране на линк)
+- QR код генериране за директен линк
+- Breadcrumb навигация
+- Related products carousel
+
+### 🔧 Technical Implementation
+
+#### Frontend Technologies Stack
+```json
+{
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0", 
+    "react-router-dom": "^6.8.0",
+    "@tanstack/react-query": "^4.24.0",
+    "axios": "^1.3.0",
+    "framer-motion": "^9.0.0",
+    "react-intersection-observer": "^9.4.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "typescript": "^4.9.0",
+    "vite": "^4.1.0",
+    "sass": "^1.58.0",
+    "@vitejs/plugin-react": "^3.1.0"
+  }
+}
+```
+
+#### API Integration Strategy
+```typescript
+// services/apiClient.ts
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+
+export const publicApiClient = axios.create({
+  baseURL: `${API_BASE_URL}/api/public`,
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json'
+  }
+});
+
+// services/menuService.ts
+export const menuService = {
+  getMenuBySlug: async (slug: string) => {
+    const response = await publicApiClient.get<MenuResponse>(`/menu/${slug}`);
+    return response.data;
+  }
+};
+```
+
+#### Theme System Implementation
+```typescript
+// themes/ThemeProvider.tsx
+interface ThemeContextType {
+  currentTheme: 'burger-pizza' | 'restaurant' | 'universal';
+  switchTheme: (theme: string) => void;
+  themeConfig: ThemeConfig;
+}
+
+// themes/burger-pizza/config.ts
+export const burgerPizzaTheme: ThemeConfig = {
+  name: 'burger-pizza',
+  colors: {
+    primary: '#E53E3E',
+    secondary: '#FFC107', 
+    accent: '#2D3748',
+    background: '#FFFFFF',
+    surface: '#F7FAFC',
+    text: '#2D3748'
+  },
+  typography: {
+    headingFont: '"Inter", "Helvetica Neue", sans-serif',
+    bodyFont: '"Open Sans", "Arial", sans-serif',
+    sizes: {
+      h1: 'clamp(2rem, 5vw, 3rem)',
+      h2: 'clamp(1.5rem, 4vw, 2.25rem)',
+      body: '1rem'
+    }
+  },
+  spacing: {
+    xs: '0.25rem',
+    sm: '0.5rem', 
+    md: '1rem',
+    lg: '2rem',
+    xl: '3rem'
+  },
+  borderRadius: {
+    sm: '8px',
+    md: '12px',
+    lg: '16px',
+    full: '50%'
+  }
+};
+```
+
+### 🚀 Implementation Roadmap
+
+#### Phase 1: Project Setup & Architecture ⚡ (1-2 дни)
+**Tasks:**
+1. **Vite + React + TypeScript setup**
+   - Създаване на `V5/frontend-public/` директория
+   - Package.json с всички dependencies
+   - Vite config за development и production
+   - TypeScript config с strict mode
+
+2. **Base Architecture**
+   - Folder structure създаване
+   - Router setup с React Router 6
+   - API client configuration 
+   - Environment variables setup
+
+3. **Base Components**
+   - Header компонент със responsive навигация
+   - Layout wrapper компонент
+   - Loading и Error boundary компоненти
+
+**Deliverable**: Работещ скелет с routing и API connection
+
+#### Phase 2: Theme System Development 🎨 (2-3 дни) 
+**Tasks:**
+1. **Theme Infrastructure**
+   - CSS Variables система за всички themes
+   - ThemeProvider context с динамично switching
+   - Base component стилизация
+
+2. **Burger/Pizza Theme** (първи theme за testing)
+   - Цветова схема и typography
+   - Component styles за всички UI елементи
+   - Mobile responsive rules
+
+3. **Theme Detection Logic**
+   - Автоматично theme selection по menu template
+   - Local storage за user preferences
+   - Fallback към universal theme
+
+**Deliverable**: Работеща theme система с първия theme
+
+#### Phase 3: Core Pages Development 📄 (3-4 дни)
+**Tasks:**
+1. **HomePage Implementation**  
+   - HeroSection с restaurant информация
+   - CategoriesGrid с responsive layout
+   - API интеграция за menu data loading
+
+2. **CategoryPage Implementation**
+   - Category hero и продукти grid
+   - Price filtering functionality
+   - Category navigation slider  
+
+3. **MenuItemPage Implementation**
+   - Product detail view с изображения
+   - Allergen и nutritional информация
+   - Related products секция
+
+**Deliverable**: Всички основни страници с functionality
+
+#### Phase 4: Mobile Optimization & UX 📱 (2-3 дни)
+**Tasks:**
+1. **Touch Interactions**
+   - Swipe gestures за navigation
+   - Touch-friendly бутони и inputs
+   - Pull-to-refresh functionality
+
+2. **Performance Optimization**  
+   - Image lazy loading с intersection observer
+   - Code splitting по страници
+   - Bundle size optimization под 500kb
+
+3. **Progressive Web App Features**
+   - Service Worker за caching
+   - Offline page и functionality  
+   - Add to Home Screen support
+
+**Deliverable**: Напълно оптимизиран mobile experience
+
+#### Phase 5: Additional Themes & Polish 🎭 (3-4 дни)
+**Tasks:**
+1. **Restaurant Theme Development**
+   - Елегантна цветова схема  
+   - Serif typography и sophisticated анимации
+   - Fine dining focused UI patterns
+
+2. **Universal Theme Development**
+   - Неутрална цветова палитра
+   - Flexible компонент система
+   - Wide compatibility дизайн
+
+3. **Cross-Theme Testing**
+   - Theme switching без visual glitches
+   - Consistent component behavior
+   - Responsive design за всички themes
+
+**Deliverable**: Три напълно функционални themes
+
+#### Phase 6: Testing & Deployment 🧪 (2-3 дни)  
+**Tasks:**
+1. **Browser Compatibility**
+   - Testing на Chrome, Safari, Firefox, Edge
+   - Mobile browser testing (iOS Safari, Chrome Mobile)
+   - Performance testing на различни устройства
+
+2. **SEO & Meta Optimization**
+   - Dynamic meta tags за всяка страница
+   - Open Graph tags за social sharing
+   - Structured data за restaurants
+
+3. **Production Build & Deployment**
+   - Production Vite config
+   - Static hosting setup (Netlify/Vercel)
+   - Domain configuration и SSL
+
+**Deliverable**: Production-ready публичен frontend
+
+### 📊 Technical Requirements
+
+#### Performance Targets
+- **Initial Page Load**: под 2 секунди на 3G
+- **Bundle Size**: под 500kb gzipped
+- **Lighthouse Score**: 90+ за всички метрики
+- **Core Web Vitals**: Green за LCP, FID, CLS
+
+#### Browser Support  
+- **Mobile**: iOS Safari 14+, Chrome Mobile 90+
+- **Desktop**: Chrome 90+, Firefox 88+, Safari 14+, Edge 90+
+- **Progressive Enhancement**: Graceful degradation за стари браузъри
+
+#### Accessibility
+- **WCAG 2.1 AA compliance**
+- **Screen reader support**
+- **Keyboard navigation**
+- **High contrast mode support**
+
+---
+
+**ВАЖНО**: V4 папката служи САМО за UI референция. Всички нови файлове се създават в V5/frontend-public/. Backend API endpoints от V5/backend/ се използват без промени.
+
 Този проект е за българския пазар - всички UI текстове и съобщения са на български език.

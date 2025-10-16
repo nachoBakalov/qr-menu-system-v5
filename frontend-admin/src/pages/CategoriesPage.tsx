@@ -239,6 +239,7 @@ const CategoriesPage: React.FC = () => {
                 <th>Име</th>
                 <th>Меню</th>
                 <th>Описание</th>
+                <th>Изображение</th>
                 <th>Пореден №</th>
                 <th>Статус</th>
                 <th>Продукти</th>
@@ -249,7 +250,7 @@ const CategoriesPage: React.FC = () => {
             <tbody>
               {!categories || categories.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="no-data">
+                  <td colSpan={9} className="no-data">
                     {state.search || state.selectedMenu 
                       ? 'Няма категории, отговарящи на критериите'
                       : 'Все още няма създадени категории'
@@ -273,6 +274,28 @@ const CategoriesPage: React.FC = () => {
                     <td>
                       <div className="table-description">
                         {category.description || <span className="text-muted">Няма описание</span>}
+                      </div>
+                    </td>
+                    <td>
+                      <div className="table-image">
+                        {category.image ? (
+                          <img 
+                            src={category.image} 
+                            alt={category.name}
+                            style={{ 
+                              width: '40px', 
+                              height: '40px', 
+                              objectFit: 'cover', 
+                              borderRadius: '4px',
+                              border: '1px solid #ddd'
+                            }}
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).style.display = 'none';
+                            }}
+                          />
+                        ) : (
+                          <span className="text-muted">По подразбиране</span>
+                        )}
                       </div>
                     </td>
                     <td>
@@ -406,6 +429,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
   const [formData, setFormData] = useState({
     name: category?.name || '',
     description: category?.description || '',
+    image: category?.image || '',
     menuId: category?.menuId || 0,
     order: category?.order || 0,
     active: category?.active ?? true,
@@ -428,6 +452,15 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
       newErrors.order = 'Пореден номер трябва да е положително число';
     }
 
+    // Validate image URL if provided
+    if (formData.image.trim()) {
+      try {
+        new URL(formData.image);
+      } catch {
+        newErrors.image = 'Моля въведете валиден URL адрес';
+      }
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -442,6 +475,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
     const submitData: CreateCategoryRequest | UpdateCategoryRequest = {
       name: formData.name.trim(),
       description: formData.description.trim() || undefined,
+      image: formData.image.trim() || undefined,
       menuId: formData.menuId,
       order: formData.order,
     };
@@ -522,6 +556,70 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
           onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
           rows={3}
         />
+      </div>
+
+      {/* Image URL */}
+      <div className="form-group">
+        <label htmlFor="image" className="form-label">
+          URL на изображение
+        </label>
+        <input
+          id="image"
+          type="url"
+          className={`form-input ${errors.image ? 'form-input--error' : ''}`}
+          placeholder="https://example.com/image.jpg"
+          value={formData.image}
+          onChange={(e) => setFormData(prev => ({ ...prev, image: e.target.value }))}
+        />
+        {errors.image && (
+          <div className="form-error">{errors.image}</div>
+        )}
+        <div className="form-help">
+          Ако не се зададе изображение, ще се използва стандартното за темата
+        </div>
+        {formData.image && (
+          <div className="image-preview" style={{ marginTop: '8px' }}>
+            <div style={{ fontSize: '12px', color: '#666', marginBottom: '4px' }}>
+              Преглед на изображението:
+            </div>
+            <img 
+              src={formData.image} 
+              alt="Преглед на изображението" 
+              style={{ 
+                maxWidth: '200px', 
+                maxHeight: '120px', 
+                objectFit: 'cover', 
+                borderRadius: '4px',
+                border: '1px solid #ddd',
+                display: 'block'
+              }}
+              onError={(e) => {
+                const imgElement = e.target as HTMLImageElement;
+                imgElement.style.display = 'none';
+                const errorMsg = document.createElement('div');
+                errorMsg.textContent = 'Грешка при зареждане на изображението';
+                errorMsg.style.color = '#e74c3c';
+                errorMsg.style.fontSize = '12px';
+                errorMsg.style.padding = '8px';
+                errorMsg.style.backgroundColor = '#f8f9fa';
+                errorMsg.style.borderRadius = '4px';
+                errorMsg.style.border = '1px solid #dee2e6';
+                if (imgElement.parentNode && !imgElement.parentNode.querySelector('.error-msg')) {
+                  errorMsg.className = 'error-msg';
+                  imgElement.parentNode.insertBefore(errorMsg, imgElement);
+                }
+              }}
+              onLoad={(e) => {
+                // Remove any previous error messages when image loads successfully
+                const imgElement = e.target as HTMLImageElement;
+                const errorMsg = imgElement.parentNode?.querySelector('.error-msg');
+                if (errorMsg) {
+                  errorMsg.remove();
+                }
+              }}
+            />
+          </div>
+        )}
       </div>
 
       {/* Order */}
