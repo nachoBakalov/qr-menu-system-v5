@@ -1,0 +1,142 @@
+// Use modern Sass import
+@use '../../styles/responsive' as *;
+
+// EMPTY STATE
+// ===========
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 2rem;
+  min-height: 300px;
+  
+  @include tablet-up {
+    padding: 4rem 3rem;
+    min-height: 400px;
+  }
+  
+  @include desktop-up {
+    padding: 5rem 4rem;
+  }
+}
+
+.empty-state__icon {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  
+  @include tablet-up {
+    font-size: 4rem;
+    margin-bottom: 2rem;
+  }
+  
+  @include desktop-up {
+    font-size: 5rem;
+  }
+}
+
+.empty-state__title {
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-bold, 700);
+  color: var(--color-text, #1f2937);
+  margin: 0 0 1rem 0;
+  
+  @include tablet-up {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.empty-state__message {
+  font-size: 1rem;
+  color: var(--color-text-secondary, #6b7280);
+  line-height: 1.6;
+  margin: 0 0 2rem 0;
+  max-width: 500px;
+  
+  @include tablet-up {
+    font-size: 1.125rem;
+    margin-bottom: 2.5rem;
+  }
+}
+
+// TYPE-SPECIFIC STYLING
+// ====================
+.empty-state--no-results {
+  .empty-state__icon {
+    color: var(--color-primary, #3182ce);
+  }
+}
+
+.empty-state--no-items {
+  .empty-state__icon {
+    color: var(--color-text-muted, #9ca3af);
+  }
+}
+
+.empty-state--loading-error {
+  .empty-state__icon {
+    color: #ef4444; // Red color for errors
+  }
+}
+
+.empty-state--generic {
+  .empty-state__icon {
+    color: var(--color-text-secondary, #6b7280);
+  }
+}
+
+// BUTTON STYLES (if not globally defined)
+// =======================================
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: var(--font-weight-medium, 600);
+  line-height: 1;
+  text-decoration: none;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  // Touch-friendly sizing
+  min-height: 48px;
+  
+  @include tablet-up {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+    min-height: auto;
+  }
+  
+  &--secondary {
+    background: var(--color-background, #ffffff);
+    color: var(--color-text, #1f2937);
+    border: 1px solid var(--color-border, #d1d5db);
+    
+    @media (hover: hover) {
+      &:hover {
+        background: var(--color-background-alt, #f8fafc);
+        border-color: var(--color-primary, #3182ce);
+        color: var(--color-primary, #3182ce);
+      }
+    }
+    
+    // Touch device feedback
+    @media (hover: none) and (pointer: coarse) {
+      &:active {
+        transform: scale(0.98);
+        background: var(--color-background-alt, #f8fafc);
+      }
+    }
+    
+    &:focus {
+      outline: none;
+      border-color: var(--color-primary, #3182ce);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+  }
+}

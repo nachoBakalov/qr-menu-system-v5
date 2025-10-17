@@ -1,0 +1,315 @@
+// Use modern Sass import
+@use '../../styles/responsive' as *;
+
+// CATEGORY TOOLBAR
+// ================
+.category-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+  
+  @include tablet-up {
+    padding: 1.5rem 0;
+    margin-bottom: 2rem;
+  }
+}
+
+.category-toolbar__left {
+  flex-shrink: 0;
+}
+
+.category-toolbar__right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  
+  @include tablet-up {
+    gap: 1rem;
+  }
+}
+
+.items-count {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary, #6b7280);
+  font-weight: var(--font-weight-medium, 500);
+  
+  @include tablet-up {
+    font-size: 1rem;
+  }
+}
+
+// DESKTOP CONTROLS
+// ================
+.sort-select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border, #d1d5db);
+  border-radius: 6px;
+  background: var(--color-background, #ffffff);
+  color: var(--color-text, #1f2937);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  @include tablet-up {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+  }
+  
+  &:focus {
+    outline: none;
+    border-color: var(--color-primary, #3182ce);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  @media (hover: hover) {
+    &:hover {
+      border-color: var(--color-primary, #3182ce);
+    }
+  }
+}
+
+.filter-toggle {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium, 500);
+  border: 1px solid var(--color-border, #d1d5db);
+  border-radius: 6px;
+  background: var(--color-background, #ffffff);
+  color: var(--color-text-secondary, #6b7280);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  
+  @include tablet-up {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+  }
+  
+  @media (hover: hover) {
+    &:hover {
+      border-color: var(--color-primary, #3182ce);
+      color: var(--color-primary, #3182ce);
+    }
+  }
+  
+  &:focus {
+    outline: none;
+    border-color: var(--color-primary, #3182ce);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  &--active {
+    border-color: var(--color-primary, #3182ce);
+    background: var(--color-primary, #3182ce);
+    color: var(--color-white, #ffffff);
+  }
+}
+
+// MOBILE CONTROLS
+// ===============
+.mobile-actions {
+  display: flex;
+  gap: 0.5rem;
+  
+  @include desktop-up {
+    display: none;
+  }
+}
+
+.mobile-button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--color-border, #d1d5db);
+  border-radius: 6px;
+  background: var(--color-background, #ffffff);
+  color: var(--color-text-secondary, #6b7280);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  
+  // Touch-friendly sizing
+  min-height: 44px;
+  min-width: 44px;
+  
+  @include tablet-up {
+    width: 48px;
+    height: 48px;
+    min-height: auto;
+    min-width: auto;
+  }
+  
+  // Touch device feedback
+  @media (hover: none) and (pointer: coarse) {
+    &:active {
+      transform: scale(0.95);
+      background: rgba(59, 130, 246, 0.1);
+    }
+  }
+  
+  @media (hover: hover) {
+    &:hover {
+      border-color: var(--color-primary, #3182ce);
+      color: var(--color-primary, #3182ce);
+    }
+  }
+  
+  &:focus {
+    outline: none;
+    border-color: var(--color-primary, #3182ce);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  &--active {
+    border-color: var(--color-primary, #3182ce);
+    background: var(--color-primary, #3182ce);
+    color: var(--color-white, #ffffff);
+  }
+}
+
+// MOBILE SORT PANEL
+// ==================
+.mobile-sort-panel {
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  
+  @include desktop-up {
+    display: none;
+  }
+}
+
+.mobile-sort-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
+  background: var(--color-background-alt, #f8fafc);
+  
+  h3 {
+    font-size: 1rem;
+    font-weight: var(--font-weight-bold, 700);
+    color: var(--color-text, #1f2937);
+    margin: 0;
+    
+    @include tablet-up {
+      font-size: 1.125rem;
+    }
+  }
+}
+
+.close-button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--color-text-secondary, #6b7280);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  
+  // Touch-friendly sizing
+  min-height: 44px;
+  min-width: 44px;
+  
+  @include tablet-up {
+    min-height: auto;
+    min-width: auto;
+  }
+  
+  @media (hover: hover) {
+    &:hover {
+      background: var(--color-background, #ffffff);
+      color: var(--color-text, #1f2937);
+    }
+  }
+  
+  // Touch device feedback
+  @media (hover: none) and (pointer: coarse) {
+    &:active {
+      transform: scale(0.95);
+      background: rgba(0, 0, 0, 0.05);
+    }
+  }
+}
+
+.mobile-sort-options {
+  display: flex;
+  flex-direction: column;
+}
+
+.sort-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border: none;
+  background: transparent;
+  color: var(--color-text, #1f2937);
+  text-align: left;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  // Touch-friendly sizing
+  min-height: 48px;
+  
+  @include tablet-up {
+    font-size: 1rem;
+    padding: 1.25rem 1rem;
+    min-height: auto;
+  }
+  
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+  }
+  
+  @media (hover: hover) {
+    &:hover {
+      background: var(--color-background-alt, #f8fafc);
+    }
+  }
+  
+  // Touch device feedback
+  @media (hover: none) and (pointer: coarse) {
+    &:active {
+      background: rgba(59, 130, 246, 0.05);
+    }
+  }
+  
+  &--active {
+    background: rgba(59, 130, 246, 0.05);
+    color: var(--color-primary, #3182ce);
+    font-weight: var(--font-weight-medium, 600);
+  }
+}
+
+.check-mark {
+  color: var(--color-primary, #3182ce);
+  font-weight: var(--font-weight-bold, 700);
+}
+
+// RESPONSIVE UTILITIES
+// ====================
+.desktop-only {
+  display: none;
+  
+  @include desktop-up {
+    display: block;
+  }
+}

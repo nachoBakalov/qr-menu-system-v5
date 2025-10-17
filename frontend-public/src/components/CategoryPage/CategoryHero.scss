@@ -1,0 +1,169 @@
+// Use modern Sass import
+@use '../../styles/responsive' as *;
+
+// CATEGORY HERO
+// =============
+.category-hero {
+  position: relative;
+  height: 300px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  
+  @include tablet-up {
+    height: 400px;
+  }
+  
+  @include desktop-up {
+    height: 500px;
+  }
+}
+
+.category-hero__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  z-index: 1;
+}
+
+.category-hero__content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: var(--color-white, #ffffff);
+  padding: 2rem 1rem;
+  max-width: 800px;
+  
+  // Center with transform to account for breadcrumb positioning
+  transform: translateY(-20px);
+  
+  @include tablet-up {
+    padding: 3rem 2rem;
+    transform: translateY(-30px);
+  }
+}
+
+.category-hero__title {
+  font-size: 2rem;
+  font-weight: var(--font-weight-bold, 700);
+  margin: 0 0 1rem 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  line-height: 1.2;
+  
+  @include tablet-up {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  @include desktop-up {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+  }
+}
+
+.category-hero__description {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+  opacity: 0.9;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  
+  @include tablet-up {
+    font-size: 1.125rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  @include desktop-up {
+    font-size: 1.25rem;
+  }
+}
+
+// BREADCRUMB
+// ==========
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--color-white, #ffffff);
+  
+  @include tablet-up {
+    font-size: 1rem;
+  }
+  
+  &--bottom-left {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    z-index: 3;
+    background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, transparent 100%);
+    backdrop-filter: blur(4px);
+    padding: 0.75rem 1rem;
+    border-radius: 0 8px 0 0;
+    
+    @include tablet-up {
+      bottom: 1.5rem;
+      left: 1.5rem;
+      padding: 1rem 1.5rem;
+      border-radius: 0 12px 0 0;
+    }
+  }
+}
+
+.breadcrumb__link {
+  color: var(--color-white, #ffffff);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  
+  // Touch-friendly sizing
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  
+  @include tablet-up {
+    min-height: auto;
+    padding: 0.5rem;
+  }
+  
+  @media (hover: hover) {
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+  }
+  
+  // Touch device feedback
+  @media (hover: none) and (pointer: coarse) {
+    &:active {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(0.98);
+    }
+  }
+}
+
+.breadcrumb__separator {
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: var(--font-weight-bold, 700);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.breadcrumb__current {
+  color: var(--color-white, #ffffff);
+  font-weight: var(--font-weight-medium, 600);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}

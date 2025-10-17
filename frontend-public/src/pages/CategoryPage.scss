@@ -813,6 +813,12 @@
     border-radius: 12px;
   }
   
+  // Desktop max-width constraint
+  @include desktop-up {
+    max-width: 420px;
+    margin: 0 auto; // Center the card if it's smaller than grid cell
+  }
+  
   // Touch device optimizations
   @media (hover: none) and (pointer: coarse) {
     &:active {

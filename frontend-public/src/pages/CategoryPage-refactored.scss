@@ -1,0 +1,266 @@
+// Use modern Sass import
+@use '../styles/responsive' as *;
+
+// CategoryPage - Refactored Styles
+// =================================
+// Most component styles moved to separate component files
+
+.category-page {
+  min-height: 100vh;
+  background: var(--color-background, #ffffff);
+  
+  // Safe area handling
+  padding-top: env(safe-area-inset-top);
+}
+
+// LOADING STATE
+// =============
+.category-page__loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: 2rem 1rem;
+  
+  @include tablet-up {
+    min-height: 400px;
+    padding: 3rem 2rem;
+  }
+  
+  .loading__spinner {
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--color-border, #e2e8f0);
+    border-top: 2px solid var(--color-primary, #3182ce);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+    
+    @include tablet-up {
+      width: 40px;
+      height: 40px;
+      border-width: 3px;
+    }
+  }
+  
+  p {
+    color: var(--color-text-secondary, #4a5568);
+    font-size: 0.875rem;
+    
+    @include tablet-up {
+      font-size: 1rem;
+    }
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// MAIN CONTENT AREA
+// =================
+.category-content {
+  padding: 0;
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    
+    @include tablet-up {
+      padding: 0 2rem;
+    }
+    
+    @include desktop-up {
+      padding: 0 3rem;
+    }
+  }
+}
+
+// FILTER PANEL LAYOUT
+// ===================
+.filter-panel {
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  
+  @include tablet-up {
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  h3 {
+    font-size: 1.125rem;
+    font-weight: var(--font-weight-bold, 700);
+    color: var(--color-text, #1f2937);
+    margin: 0 0 1rem 0;
+    
+    @include tablet-up {
+      font-size: 1.25rem;
+    }
+  }
+}
+
+.filter-group {
+  margin-bottom: 1.5rem;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.filter-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium, 600);
+  color: var(--color-text, #1f2937);
+  margin-bottom: 0.75rem;
+  
+  @include tablet-up {
+    font-size: 1rem;
+  }
+}
+
+.filter-actions {
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border, #e2e8f0);
+  
+  @include tablet-up {
+    padding-top: 1.5rem;
+  }
+}
+
+// MENU ITEMS GRID
+// ===============
+.menu-items-grid {
+  display: grid;
+  gap: 1rem;
+  
+  @include tablet-up {
+    gap: 1.5rem;
+  }
+  
+  @include desktop-up {
+    gap: 2rem;
+  }
+}
+
+// GRID UTILITIES (Mobile First)
+// =============================
+.grid-responsive {
+  // Base: 1 column on mobile
+  grid-template-columns: 1fr;
+}
+
+.grid-2-mobile-lg {
+  // 2 columns on mobile-lg and up
+  @include mobile-lg-up {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.grid-3 {
+  // 3 columns on tablet and up
+  @include tablet-up {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.grid-auto-desktop {
+  // Auto-fit on desktop for flexible layout
+  @include desktop-up {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+// TOUCH TARGET UTILITY
+// ====================
+.touch-target {
+  // Ensure minimum touch target size on mobile
+  @media (hover: none) and (pointer: coarse) {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+// BUTTON STYLES
+// =============
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: var(--font-weight-medium, 600);
+  line-height: 1;
+  text-decoration: none;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  // Touch-friendly sizing
+  min-height: 48px;
+  
+  @include tablet-up {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+    min-height: auto;
+  }
+  
+  &--secondary {
+    background: var(--color-background, #ffffff);
+    color: var(--color-text, #1f2937);
+    border: 1px solid var(--color-border, #d1d5db);
+    
+    @media (hover: hover) {
+      &:hover {
+        background: var(--color-background-alt, #f8fafc);
+        border-color: var(--color-primary, #3182ce);
+        color: var(--color-primary, #3182ce);
+      }
+    }
+    
+    // Touch device feedback
+    @media (hover: none) and (pointer: coarse) {
+      &:active {
+        transform: scale(0.98);
+        background: var(--color-background-alt, #f8fafc);
+      }
+    }
+    
+    &:focus {
+      outline: none;
+      border-color: var(--color-primary, #3182ce);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+  }
+  
+  &--outline {
+    background: transparent;
+    border: 1px solid var(--color-border, #d1d5db);
+    
+    @media (hover: hover) {
+      &:hover {
+        background: var(--color-background-alt, #f8fafc);
+      }
+    }
+  }
+  
+  &--sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    
+    @include tablet-up {
+      padding: 0.75rem 1.25rem;
+      font-size: 1rem;
+    }
+  }
+}

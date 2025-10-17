@@ -1,0 +1,247 @@
+// Use modern Sass import
+@use '../../styles/responsive' as *;
+
+// MENU ITEM CARD
+// ==============
+.menu-item-card {
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  
+  @include tablet-up {
+    border-radius: 12px;
+  }
+  
+  // Desktop max-width constraint
+  @include desktop-up {
+    max-width: 420px;
+    margin: 0 auto; // Center the card if it's smaller than grid cell
+  }
+  
+  // Touch device optimizations
+  @media (hover: none) and (pointer: coarse) {
+    &:active {
+      transform: scale(0.98);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+  }
+  
+  // Hover effects for devices that support hover
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      border-color: var(--color-primary, #3182ce);
+      
+      .menu-item-card__image img {
+        transform: scale(1.05);
+      }
+    }
+  }
+}
+
+.menu-item-card .menu-item-card__link {
+  display: flex !important;
+  text-decoration: none;
+  color: inherit;
+  height: 100%;
+}
+
+// IMAGE SECTION
+// =============
+.menu-item-card__image {
+  position: relative;
+  height: auto;
+  background: var(--color-background-alt, #f8fafc);
+  overflow: hidden;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 6.5rem;
+    max-width: 250px !important;
+    width: 70% !important;
+
+  @include tablet-up {
+    height: 200px;
+  }
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+}
+
+.menu-item-card__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: var(--color-background-alt, #f8fafc);
+  
+  .placeholder-icon {
+    font-size: 2rem;
+    color: var(--color-text-muted, #9ca3af);
+    
+    @include tablet-up {
+      font-size: 2.5rem;
+    }
+  }
+}
+
+// INFO SECTION
+// ============
+.menu-item-card__info {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    padding: 1rem;
+  
+  @include tablet-up {
+    padding: 1.25rem;
+  }
+}
+
+.menu-item-card__name {
+  font-size: 1.125rem;
+  font-weight: var(--font-weight-bold, 700);
+  color: var(--color-text, #1f2937);
+  margin: 0 0 0.5rem 0;
+  line-height: 1.3;
+  
+  @include tablet-up {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  // Clamp to 2 lines
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.menu-item-card__description {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary, #6b7280);
+  line-height: 1.5;
+  margin: 0 0 1rem 0;
+  
+  @include tablet-up {
+    font-size: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  // Clamp to 3 lines
+  display: -webkit-box;
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// FOOTER SECTION
+// ==============
+.menu-item-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  gap: 0.75rem;
+  
+  @include tablet-up {
+    margin-bottom: 1.25rem;
+  }
+}
+
+.menu-item-card__prices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.menu-item-card__price {
+  font-weight: var(--font-weight-bold, 700);
+  
+  &--primary {
+    font-size: 1.125rem;
+    color: var(--color-primary, #3182ce);
+    
+    @include tablet-up {
+      font-size: 1.25rem;
+    }
+  }
+  
+  &--secondary {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary, #6b7280);
+    
+    @include tablet-up {
+      font-size: 1rem;
+    }
+  }
+}
+
+.menu-item-card__weight {
+  font-size: 0.75rem;
+  color: var(--color-text-muted, #9ca3af);
+  font-weight: var(--font-weight-medium, 500);
+  padding: 0.25rem 0.5rem;
+  background: var(--color-background-alt, #f3f4f6);
+  border-radius: 4px;
+  
+  @include tablet-up {
+    font-size: 0.875rem;
+    padding: 0.375rem 0.75rem;
+  }
+}
+
+// META SECTION (TAGS & ALLERGENS)
+// ===============================
+.menu-item-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.menu-item-card__tags,
+.menu-item-card__allergens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  
+  @include tablet-up {
+    gap: 0.375rem;
+  }
+}
+
+// TAG STYLES
+// ==========
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-medium, 500);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  
+  @include tablet-up {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8125rem;
+  }
+  
+  &--info {
+    background: transparent;
+    color: var(--color-primary, #3182ce);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+  }
+  
+  &--warning {
+    background: transparent;
+    color: #d97706;
+    border: 1px solid rgba(245, 158, 11, 0.2);
+  }
+}

@@ -104,7 +104,8 @@ $breakpoints: (
   min-width: 44px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  max-width: 560px;
 }
 
 // RESPONSIVE GRID SYSTEM
@@ -116,28 +117,15 @@ $breakpoints: (
   // Mobile: 1 column
   grid-template-columns: 1fr;
   
-  // Mobile Large: 2 columns for some layouts
-  @include mobile-lg-up {
-    &.grid-2-mobile-lg {
-      grid-template-columns: repeat(2, 1fr);
-    }
+  // Under 900px: Always 1 column
+  @media (max-width: 899px) {
+    grid-template-columns: repeat(1, 1fr) !important;
   }
   
-  // Tablet: 2-3 columns
-  @include tablet-up {
+  // 900px and up: Always 2 columns
+  @media (min-width: 900px) {
     gap: 1.5rem;
-    
-    &.grid-2 {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    
-    &.grid-3 {
-      grid-template-columns: repeat(3, 1fr);
-    }
-    
-    &.grid-auto {
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    }
+    grid-template-columns: repeat(2, 1fr) !important;
   }
   
   // Desktop: 3-4 columns
