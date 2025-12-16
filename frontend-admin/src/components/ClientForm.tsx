@@ -20,6 +20,8 @@ const ClientForm: React.FC<ClientFormProps> = ({
     description: '',
     address: '',
     phone: '',
+    logo: '',
+    heroImage: '',
     slogan: '',
     active: true,
   });
@@ -34,6 +36,8 @@ const ClientForm: React.FC<ClientFormProps> = ({
         description: client.description || '',
         address: client.address || '',
         phone: client.phone || '',
+        logo: client.logo || '',
+        heroImage: client.heroImage || '',
         slogan: client.slogan || '',
         active: client.active,
       });
@@ -92,6 +96,8 @@ const ClientForm: React.FC<ClientFormProps> = ({
       description: formData.description.trim() || undefined,
       address: formData.address.trim() || undefined,
       phone: formData.phone.trim() || undefined,
+      logo: formData.logo.trim() || undefined,
+      heroImage: formData.heroImage.trim() || undefined,
       slogan: formData.slogan.trim() || undefined,
     };
 
@@ -214,6 +220,45 @@ const ClientForm: React.FC<ClientFormProps> = ({
             value={formData.slogan}
             onChange={(e) => setFormData(prev => ({ ...prev, slogan: e.target.value }))}
           />
+        </div>
+      </div>
+
+      {/* Logo and Hero Image */}
+      <div className="grid grid--cols-1 grid--sm-cols-2" style={{ gap: '1rem' }}>
+        {/* Logo URL */}
+        <div className="form-group">
+          <label htmlFor="logo" className="form-label">
+            Лого (URL)
+          </label>
+          <input
+            id="logo"
+            type="url"
+            className="form-input"
+            placeholder="https://example.com/logo.png"
+            value={formData.logo}
+            onChange={(e) => setFormData(prev => ({ ...prev, logo: e.target.value }))}
+          />
+          <div className="form-help">
+            URL адрес на логото на заведението
+          </div>
+        </div>
+
+        {/* Hero Image URL */}
+        <div className="form-group">
+          <label htmlFor="heroImage" className="form-label">
+            Основна снимка (URL)
+          </label>
+          <input
+            id="heroImage"
+            type="url"
+            className="form-input"
+            placeholder="https://example.com/hero.jpg"
+            value={formData.heroImage}
+            onChange={(e) => setFormData(prev => ({ ...prev, heroImage: e.target.value }))}
+          />
+          <div className="form-help">
+            URL адрес на основната снимка за Hero секцията
+          </div>
         </div>
       </div>
 

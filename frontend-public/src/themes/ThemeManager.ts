@@ -68,8 +68,42 @@ export class ThemeManager {
     
     // Прилага цветовете
     Object.entries(theme.colors).forEach(([key, value]) => {
-      root.style.setProperty(`--color-${this.kebabCase(key)}`, value);
+      const kebabKey = this.kebabCase(key);
+      root.style.setProperty(`--color-${kebabKey}`, value);
     });
+    
+    // Добавя alias variables за backward compatibility
+    if (theme.colors.primary) {
+      root.style.setProperty('--primary-color', theme.colors.primary);
+      root.style.setProperty('--primary-rgb', this.hexToRgb(theme.colors.primary));
+    }
+    if (theme.colors.primaryHover) {
+      root.style.setProperty('--primary-color-hover', theme.colors.primaryHover);
+    }
+    if (theme.colors.secondary) {
+      root.style.setProperty('--secondary-color', theme.colors.secondary);
+      root.style.setProperty('--secondary-rgb', this.hexToRgb(theme.colors.secondary));
+    }
+    if (theme.colors.text) {
+      root.style.setProperty('--text-color', theme.colors.text);
+    }
+    if (theme.colors.surface) {
+      root.style.setProperty('--surface-color', theme.colors.surface);
+    }
+    if (theme.colors.border) {
+      root.style.setProperty('--border-color', theme.colors.border);
+    }
+    if (theme.colors.background) {
+      root.style.setProperty('--background-color', theme.colors.background);
+    }
+    
+    // Interaction colors based on primary
+    if (theme.colors.primary) {
+      const rgb = this.hexToRgb(theme.colors.primary);
+      root.style.setProperty('--hover-color', `rgba(${rgb}, 0.05)`);
+      root.style.setProperty('--active-color', `rgba(${rgb}, 0.1)`);
+      root.style.setProperty('--focus-color', theme.colors.primary);
+    }
     
     // Прилага typography
     Object.entries(theme.typography.fontSize).forEach(([key, value]) => {
@@ -146,6 +180,26 @@ export class ThemeManager {
    */
   private kebabCase(str: string): string {
     return str.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
+  }
+  
+  /**
+   * Utility function - преобразува HEX цвят към RGB стойности
+   */
+  private hexToRgb(hex: string): string {
+    // Премахва # ако има
+    hex = hex.replace('#', '');
+    
+    // Разширява short hex (#RGB към #RRGGBB)
+    if (hex.length === 3) {
+      hex = hex.split('').map(c => c + c).join('');
+    }
+    
+    // Парсва RGB стойностите
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+    
+    return `${r}, ${g}, ${b}`;
   }
 }
 

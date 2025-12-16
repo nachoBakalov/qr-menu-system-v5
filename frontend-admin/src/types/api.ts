@@ -44,6 +44,7 @@ export interface Client {
   address?: string;
   phone?: string;
   logo?: string;
+  heroImage?: string;
   slogan?: string;
   socialMedia?: Record<string, any>;
   active: boolean;
@@ -60,6 +61,7 @@ export interface CreateClientRequest {
   phone?: string;
   logo?: string;
   slogan?: string;
+  heroImage?: string;
   socialMedia?: Record<string, any>;
 }
 

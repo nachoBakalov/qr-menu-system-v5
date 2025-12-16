@@ -14,6 +14,7 @@ export interface Client {
   phone?: string;
   address?: string;
   logo?: string;
+  heroImage?: string;
   description?: string;
   isActive: boolean;
   createdAt: string;

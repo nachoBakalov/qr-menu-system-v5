@@ -291,6 +291,73 @@
     }
   }
   
+  // Social media buttons
+  &--social {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 50%;
+    min-height: auto;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    
+    @include tablet-up {
+      width: 48px;
+      height: 48px;
+    }
+    
+    .btn__icon {
+      font-size: 1.25rem;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      @include tablet-up {
+        font-size: 1.5rem;
+      }
+    }
+  }
+  
+  &--facebook {
+    background: #1877f2;
+    border-color: #1877f2;
+    color: white;
+    
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background: #166fe5;
+        border-color: #166fe5;
+      }
+    }
+  }
+  
+  &--instagram {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    border: none;
+    color: white;
+    
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+  
+  &--gmail {
+    background: #ea4335;
+    border-color: #ea4335;
+    color: white;
+    
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background: #d33b2c;
+        border-color: #d33b2c;
+      }
+    }
+  }
+  
   // Respect reduced motion preference
   @media (prefers-reduced-motion: reduce) {
     transition: none;
@@ -367,9 +434,28 @@
     
     .btn {
       @media (max-width: 480px) {
-        width: 100%;
+        // width: 100%;
       }
     }
+  }
+}
+
+// SHARE BUTTONS
+// =============
+.share-buttons {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  
+  // Mobile: full width with centered buttons
+  @media (max-width: 480px) {
+    width: 100%;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  @include tablet-up {
+    gap: 0.75rem;
   }
 }
 
@@ -559,13 +645,13 @@
   &--info {
     // background: rgba(59, 130, 246, 0.1);
     color: rgb(37, 99, 235);
-    border: 1px solid rgba(59, 130, 246, 0.3);
+    // border: 1px solid rgba(59, 130, 246, 0.3);
   }
   
   &--warning {
     // background: rgba(245, 101, 101, 0.1);
     color: rgb(220, 38, 38);
-    border: 1px solid rgba(245, 101, 101, 0.3);
+    // border: 1px solid rgba(245, 101, 101, 0.3);
   }
 }
 

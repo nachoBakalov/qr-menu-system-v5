@@ -1,5 +1,6 @@
 // CategoryPage Components
 export { default as CategoryHero } from './CategoryHero';
+export { default as CategoryNavigation } from './CategoryNavigation';
 export { default as CategoryToolbar } from './CategoryToolbar';
 export { default as PriceRangeFilter } from './PriceRangeFilter';
 export { default as MenuItemCard } from './MenuItemCard';

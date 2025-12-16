@@ -1,0 +1,191 @@
+@use '../../styles/responsive' as *;
+
+.category-navigation {
+  background: var(--surface-color);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  margin-top: 1.5rem;
+  justify-content : center;
+
+  
+  &__wrapper {
+    position: relative;
+  }
+  
+  &__scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  
+  &__tabs {
+    display: flex;
+    min-width: max-content;
+    padding: 0;
+    margin: 0;
+    gap: 10px;
+    
+    // On tablet and up, center tabs if they fit
+    @include tablet-up {
+      justify-content: center;
+      min-width: 100%;
+    }
+  }
+}
+
+.category-nav-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  min-height: 60px; // Touch-friendly height
+  text-decoration: none;
+  color: var(--text-color);
+  font-weight: 500;
+  font-size: 0.9rem;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  position: relative;
+  background: #D23321;
+    background: linear-gradient(90deg, rgba(210, 51, 33, 1) 0%, rgba(216, 69, 38, 1) 37%, rgba(221, 92, 44, 1) 65%, rgba(238, 139, 56, 1) 100%);
+    border-radius: 40px;
+  
+  // Mobile touch target
+  min-width: 100px;
+  justify-content: center;
+  
+  @include tablet-up {
+    padding: 1.25rem 2rem;
+    font-size: 1rem;
+    min-width: 120px;
+  }
+  
+  &:hover {
+    background: var(--hover-color, rgba(var(--primary-rgb), 0.05));
+    color: var(--primary-color);
+  }
+  
+  &:active {
+    background: var(--active-color, rgba(var(--primary-rgb), 0.1));
+  }
+  
+  // Active state
+  &--active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+    background: rgba(var(--primary-rgb), 0.05);
+    
+    .category-nav-tab__name {
+      font-weight: 600;
+    }
+  }
+  
+  &__name {
+    flex: 1;
+    text-align: center;
+  }
+  
+  &__image {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: var(--border-color);
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    
+    @include tablet-up {
+      width: 40px;
+      height: 40px;
+    }
+  }
+  
+  &__count {
+    background: var(--secondary-color, var(--border-color));
+    color: var(--surface-color);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    min-width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+  
+  // Focus states for accessibility
+  &:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: -2px;
+    background: rgba(var(--primary-rgb), 0.05);
+  }
+}
+
+// Dark theme adjustments
+[data-theme="dark"] {
+  .category-navigation {
+    background: var(--surface-color);
+    border-bottom-color: var(--border-color);
+  }
+  
+  .category-nav-tab {
+    &:hover {
+      background: rgba(var(--primary-rgb), 0.1);
+    }
+    
+    &--active {
+      background: rgba(var(--primary-rgb), 0.15);
+      border: solid 1px #D23321;
+    }
+  }
+}
+
+// Animation for smooth scrolling
+@media (prefers-reduced-motion: no-preference) {
+  .category-navigation__scroll {
+    scroll-behavior: smooth;
+  }
+  
+  .category-nav-tab {
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+// Mobile-specific improvements
+@include mobile-only {
+  .category-navigation {
+    &__scroll {
+      padding-left: 1rem;
+      padding-right: 1rem;
+      margin-left: -1rem;
+      margin-right: -1rem;
+    }
+  }
+  
+  .category-nav-tab {
+    &:first-child {
+      margin-left: 0;
+    }
+    
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}

@@ -26,6 +26,7 @@ model Client {
   address     String?
   phone       String?
   logo        String?
+  heroImage   String?  @map("hero_image")
   slogan      String?
   socialMedia Json?
   active      Boolean  @default(true)

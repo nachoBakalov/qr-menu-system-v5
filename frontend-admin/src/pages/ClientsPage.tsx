@@ -63,6 +63,8 @@ const SimpleClientForm: React.FC<SimpleClientFormProps> = ({ client, onSubmit, o
     description: client?.description || '',
     address: client?.address || '',
     phone: client?.phone || '',
+    logo: client?.logo || '',
+    heroImage: client?.heroImage || '',
     slogan: client?.slogan || '',
     active: client?.active ?? true,
   });
@@ -143,6 +145,38 @@ const SimpleClientForm: React.FC<SimpleClientFormProps> = ({ client, onSubmit, o
           onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
           style={{ width: '100%', padding: '0.5rem', border: '1px solid #ccc', borderRadius: '4px' }}
         />
+      </div>
+      
+      <div>
+        <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+          Лого (URL)
+        </label>
+        <input
+          type="url"
+          value={formData.logo}
+          onChange={(e) => setFormData(prev => ({ ...prev, logo: e.target.value }))}
+          style={{ width: '100%', padding: '0.5rem', border: '1px solid #ccc', borderRadius: '4px' }}
+          placeholder="https://example.com/logo.png"
+        />
+        <small style={{ display: 'block', marginTop: '0.25rem', color: '#666' }}>
+          URL адрес на логото на заведението
+        </small>
+      </div>
+      
+      <div>
+        <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+          Основна снимка (URL)
+        </label>
+        <input
+          type="url"
+          value={formData.heroImage}
+          onChange={(e) => setFormData(prev => ({ ...prev, heroImage: e.target.value }))}
+          style={{ width: '100%', padding: '0.5rem', border: '1px solid #ccc', borderRadius: '4px' }}
+          placeholder="https://example.com/hero.jpg"
+        />
+        <small style={{ display: 'block', marginTop: '0.25rem', color: '#666' }}>
+          URL адрес на основната снимка за Hero секцията
+        </small>
       </div>
       
       <div>

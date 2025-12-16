@@ -76,6 +76,12 @@ export const createClientSchema = Joi.object({
     .messages({
       'string.uri': 'Невалиден URL за лого'
     }),
+  heroImage: Joi.string()
+    .uri()
+    .allow('')
+    .messages({
+      'string.uri': 'Невалиден URL за основна снимка'
+    }),
   slogan: Joi.string()
     .max(100)
     .allow('')

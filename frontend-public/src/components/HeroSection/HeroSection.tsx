@@ -13,8 +13,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ menu }) => {
   
   const { currentTheme } = useTheme();
   
-  // Определя background изображението
-  const backgroundImage = getDefaultImage(currentTheme as any, 'hero');
+  // Определя background изображението - приоритет на client heroImage, после theme default
+  const backgroundImage = menu.client?.heroImage || getDefaultImage(currentTheme as any, 'hero');
   
   return (
     <section 
@@ -25,10 +25,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({ menu }) => {
     >
       <div className="container">
         <div className="hero-section__content">
-          {menu.restaurantLogo && (
+          {(menu.restaurantLogo || menu.client?.logo) && (
             <div className="hero-section__logo">
               <img 
-                src={menu.restaurantLogo} 
+                src={menu.restaurantLogo || menu.client?.logo} 
                 alt={menu.title} 
                 className="hero-section__logo-image"
                 loading="eager"

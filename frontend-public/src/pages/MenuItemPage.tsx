@@ -1,6 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { FaFacebookF, FaInstagram } from 'react-icons/fa';
+import { MdEmail } from 'react-icons/md';
 import { menuService } from '../services';
 import { useTheme } from '../themes/ThemeProvider';
 import { getDefaultImage } from '../constants/defaultImages';
@@ -53,27 +55,31 @@ const MenuItemPage: React.FC = () => {
       .slice(0, 4); // Show max 4 related items
   }, [category, item]);
 
-  // Share functionality
-  const handleShare = async () => {
-    const url = window.location.href;
-    const title = `${item?.name} - ${menu?.title}`;
+  // Social share functionality
+  const handleSocialShare = (platform: 'facebook' | 'instagram' | 'gmail') => {
+    const url = encodeURIComponent(window.location.href);
     
-    try {
-      if (navigator.share) {
-        // Use native share API if available
-        await navigator.share({
-          title,
-          text: item?.description,
-          url,
-        });
-      } else {
-        // Fallback to clipboard
-        await navigator.clipboard.writeText(url);
-        setShareMessage('Линкът е копиран в буфера!');
-        setTimeout(() => setShareMessage(null), 3000);
-      }
-    } catch (error) {
-      console.log('Share failed:', error);
+    let shareUrl = '';
+    
+    switch (platform) {
+      case 'facebook':
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+        break;
+      case 'instagram':
+        // Instagram doesn't support direct sharing, so we copy to clipboard
+        navigator.clipboard.writeText(window.location.href);
+        setShareMessage('Линкът е копиран! Отидете в Instagram и го вмъкнете в Story или Post.');
+        setTimeout(() => setShareMessage(null), 5000);
+        return;
+      case 'gmail':
+        const subject = encodeURIComponent(`Препоръчвам ви ${item?.name}`);
+        const body = encodeURIComponent(`Здравейте!\n\nИскам да споделя с вас този продукт: ${item?.name}\n\n${item?.description || ''}\n\nМожете да го видите тук: ${window.location.href}\n\nПоздрави!`);
+        shareUrl = `mailto:?subject=${subject}&body=${body}`;
+        break;
+    }
+    
+    if (shareUrl) {
+      window.open(shareUrl, '_blank', 'noopener,noreferrer');
     }
   };
 
@@ -177,16 +183,33 @@ const MenuItemPage: React.FC = () => {
                 </div>
               </div>
               
-              {/* Share Button - Touch Optimized */}
+              {/* Share Buttons - Touch Optimized */}
               <div className="item-header__actions">
-                <button 
-                  onClick={handleShare}
-                  className="btn btn--outline btn--share touch-target"
-                  aria-label="Споделете този продукт"
-                >
-                  <span className="btn__icon" aria-hidden="true">📤</span>
-                  <span className="btn__text">Споделяне</span>
-                </button>
+                <div className="share-buttons">
+                  <button 
+                    onClick={() => handleSocialShare('facebook')}
+                    className="btn btn--social btn--facebook touch-target"
+                    aria-label="Споделете във Facebook"
+                  >
+                    <FaFacebookF className="btn__icon" aria-hidden="true" />
+                  </button>
+                  
+                  <button 
+                    onClick={() => handleSocialShare('instagram')}
+                    className="btn btn--social btn--instagram touch-target"
+                    aria-label="Споделете в Instagram"
+                  >
+                    <FaInstagram className="btn__icon" aria-hidden="true" />
+                  </button>
+                  
+                  <button 
+                    onClick={() => handleSocialShare('gmail')}
+                    className="btn btn--social btn--gmail touch-target"
+                    aria-label="Споделете по имейл"
+                  >
+                    <MdEmail className="btn__icon" aria-hidden="true" />
+                  </button>
+                </div>
               </div>
             </div>
 

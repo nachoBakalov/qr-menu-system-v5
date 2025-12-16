@@ -43,6 +43,24 @@ body {
   --color-text-secondary: #6b7280;
   --color-border: #e5e7eb;
   
+  // Alias variables за по-лесна употреба (compatibility)
+  --primary-color: var(--color-primary);
+  --primary-color-hover: var(--color-primary-hover);
+  --secondary-color: var(--color-secondary);
+  --text-color: var(--color-text);
+  --surface-color: var(--color-surface);
+  --border-color: var(--color-border);
+  --background-color: var(--color-background);
+  
+  // RGB versions за rgba() функции
+  --primary-rgb: 59, 130, 246; // #3b82f6
+  --secondary-rgb: 16, 185, 129; // #10b981
+  
+  // Interaction colors
+  --hover-color: rgba(59, 130, 246, 0.05);
+  --active-color: rgba(59, 130, 246, 0.1);
+  --focus-color: var(--color-primary);
+  
   // Typography (will be overridden by theme)
   --font-family-heading: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-family-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;

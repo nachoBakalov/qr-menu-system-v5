@@ -6,6 +6,7 @@ import { useTheme } from '../themes/ThemeProvider';
 import { getDefaultImage } from '../constants/defaultImages';
 import { 
   CategoryHero, 
+  CategoryNavigation,
   CategoryToolbar, 
   PriceRangeFilter, 
   MenuItemCard, 
@@ -136,6 +137,20 @@ const CategoryPage: React.FC = () => {
           { label: menu.title, href: `/menu/${clientSlug}` }
         ]}
         currentPage={category.name}
+      />
+
+      {/* Category Navigation */}
+      <CategoryNavigation
+        categories={menu.categories.map(cat => ({
+          id: cat.id,
+          name: cat.name,
+          image: cat.image,
+          isActive: cat.isActive,
+          order: cat.order,
+          menuItemsCount: cat.menuItems?.filter(item => item.isActive).length
+        }))}
+        currentCategoryId={categoryId!}
+        clientSlug={clientSlug!}
       />
 
       {/* Main Content */}

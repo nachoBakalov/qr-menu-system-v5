@@ -11,6 +11,7 @@ export interface PublicClient {
   address?: string;
   phone?: string;
   logo?: string;
+  heroImage?: string;
   slogan?: string;
   socialMedia?: Record<string, any>;
 }
