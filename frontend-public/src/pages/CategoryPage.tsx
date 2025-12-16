@@ -2,8 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { menuService } from '../services';
-import { useTheme } from '../themes/ThemeProvider';
-import { getDefaultImage } from '../constants/defaultImages';
+import { DEFAULT_CATEGORY_IMAGE } from '../constants/defaultImages';
 import { 
   CategoryHero, 
   CategoryNavigation,
@@ -25,7 +24,6 @@ interface CategoryFilters {
 
 const CategoryPage: React.FC = () => {
   const { clientSlug, categoryId } = useParams<{ clientSlug: string; categoryId: string }>();
-  const { currentTheme } = useTheme();
 
   // State for filters and sorting
   const [filters, setFilters] = useState<CategoryFilters>({
@@ -124,7 +122,7 @@ const CategoryPage: React.FC = () => {
     return <Navigate to={`/menu/${clientSlug}`} replace />;
   }
 
-  const categoryImage = category.image || getDefaultImage(currentTheme as any, 'category');
+  const categoryImage = category.image || DEFAULT_CATEGORY_IMAGE;
 
   return (
     <div className="category-page">

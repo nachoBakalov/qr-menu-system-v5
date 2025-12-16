@@ -2,6 +2,15 @@
  * Default images and assets for themes
  */
 
+// Default hero image when no client heroImage is set
+export const DEFAULT_HERO_IMAGE = 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.1.0&auto=format&fit=crop&q=80&w=1925';
+
+// Default category image
+export const DEFAULT_CATEGORY_IMAGE = 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.1.0&auto=format&fit=crop&q=80&w=800';
+
+// Default menu item image
+export const DEFAULT_MENU_ITEM_IMAGE = 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.1.0&auto=format&fit=crop&q=80&w=400';
+
 export const DEFAULT_IMAGES = {
   'burger-pizza': {
     hero: 'https://images.unsplash.com/photo-1693323898254-2a9775ffa443?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1925',

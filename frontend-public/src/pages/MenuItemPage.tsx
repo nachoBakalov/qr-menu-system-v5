@@ -4,8 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { FaFacebookF, FaInstagram } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
 import { menuService } from '../services';
-import { useTheme } from '../themes/ThemeProvider';
-import { getDefaultImage } from '../constants/defaultImages';
+import { DEFAULT_MENU_ITEM_IMAGE } from '../constants/defaultImages';
 import './MenuItemPage.scss';
 
 const MenuItemPage: React.FC = () => {
@@ -13,7 +12,6 @@ const MenuItemPage: React.FC = () => {
     clientSlug: string; 
     itemId: string; 
   }>();
-  const { currentTheme } = useTheme();
   
   const [shareMessage, setShareMessage] = useState<string | null>(null);
 
@@ -100,7 +98,7 @@ const MenuItemPage: React.FC = () => {
     return <Navigate to={`/menu/${clientSlug}`} replace />;
   }
 
-  const itemImage = item.image || getDefaultImage(currentTheme as any, 'menuItem');
+  const itemImage = item.image || DEFAULT_MENU_ITEM_IMAGE;
 
   return (
     <div className="menu-item-page">
@@ -119,8 +117,7 @@ const MenuItemPage: React.FC = () => {
             className="item-hero__image img-responsive"
             loading="eager"
             onError={(e) => {
-              const defaultImage = getDefaultImage(currentTheme as any, 'menuItem');
-              (e.target as HTMLImageElement).src = defaultImage;
+              (e.target as HTMLImageElement).src = DEFAULT_MENU_ITEM_IMAGE;
             }}
           />
           <div className="item-hero__overlay"></div>
@@ -296,13 +293,12 @@ const MenuItemPage: React.FC = () => {
                     >
                       <div className="related-item-card__image aspect-ratio aspect-photo">
                         <img 
-                          src={relatedItem.image || getDefaultImage(currentTheme as any, 'menuItem')}
+                          src={relatedItem.image || DEFAULT_MENU_ITEM_IMAGE}
                           alt={relatedItem.name}
                           loading="lazy"
                           className="img-responsive"
                           onError={(e) => {
-                            const defaultImage = getDefaultImage(currentTheme as any, 'menuItem');
-                            (e.target as HTMLImageElement).src = defaultImage;
+                            (e.target as HTMLImageElement).src = DEFAULT_MENU_ITEM_IMAGE;
                           }}
                         />
                       </div>

@@ -104,6 +104,7 @@ export const convertPublicToMenu = (publicData: PublicMenuData): Menu => {
       phone: publicData.client.phone,
       address: publicData.client.address,
       logo: publicData.client.logo,
+      heroImage: publicData.client.heroImage,
       description: publicData.client.description,
       isActive: publicData.menu.active,
       createdAt: publicData.menu.createdAt,

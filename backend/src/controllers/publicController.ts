@@ -50,6 +50,7 @@ export const getClientBySlug = async (req: Request, res: Response) => {
           address: client.address,
           phone: client.phone,
           logo: client.logo,
+          heroImage: client.heroImage,
           slogan: client.slogan,
           socialMedia: client.socialMedia
         },

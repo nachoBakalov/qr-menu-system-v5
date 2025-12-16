@@ -2,15 +2,12 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { menuService } from '../services';
-import { useTheme } from '../themes/ThemeProvider';
-import { getDefaultImage } from '../constants/defaultImages';
-import ThemeSwitcher from '../components/ThemeSwitcher/ThemeSwitcher';
+import { DEFAULT_CATEGORY_IMAGE } from '../constants/defaultImages';
 import HeroSection from '../components/HeroSection';
 import './HomePage.scss';
 
 const HomePage: React.FC = () => {
   const { clientSlug } = useParams<{ clientSlug: string }>();
-  const { currentTheme } = useTheme();
 
   const { 
     data: menu, 
@@ -65,9 +62,6 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="home-page">
-      {/* Theme Switcher за демо */}
-      <ThemeSwitcher />
-      
       {/* Hero Section */}
       <HeroSection menu={menu} />
 
@@ -81,7 +75,7 @@ const HomePage: React.FC = () => {
               .filter(category => category.isActive)
               .sort((a, b) => a.order - b.order)
               .map((category) => {
-                const backgroundImage = category.image || getDefaultImage(currentTheme as any, 'category');
+                const backgroundImage = category.image || DEFAULT_CATEGORY_IMAGE;
                 return (
                   <Link 
                     key={category.id} 

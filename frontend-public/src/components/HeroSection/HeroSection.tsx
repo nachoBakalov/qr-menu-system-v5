@@ -1,7 +1,6 @@
 import React from 'react';
 import type { Menu } from '../../types';
-import { useTheme } from '../../themes/ThemeProvider';
-import { getDefaultImage, shouldUseDefaultImage } from '../../constants/defaultImages';
+import { DEFAULT_HERO_IMAGE } from '../../constants/defaultImages';
 import './HeroSection.scss';
 
 interface HeroSectionProps {
@@ -10,11 +9,10 @@ interface HeroSectionProps {
 
 const HeroSection: React.FC<HeroSectionProps> = ({ menu }) => {
   console.log('🎯 HeroSection rendering with menu:', menu?.title);
+  console.log('🖼️ Client heroImage:', menu?.client?.heroImage);
   
-  const { currentTheme } = useTheme();
-  
-  // Определя background изображението - приоритет на client heroImage, после theme default
-  const backgroundImage = menu.client?.heroImage || getDefaultImage(currentTheme as any, 'hero');
+  // Използва client heroImage ако има, иначе default изображение
+  const backgroundImage = menu.client?.heroImage || DEFAULT_HERO_IMAGE;
   
   return (
     <section 
